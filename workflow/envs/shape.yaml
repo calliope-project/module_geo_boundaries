@@ -1,0 +1,9 @@
+name: shell
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - duckdb = 1.2.0
+  - geopandas = 1.0.1
+  - pyarrow = 19.0.1
+  - pycountry = 24.6.1

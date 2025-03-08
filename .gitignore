@@ -21,3 +21,5 @@ gurobi.log
 # Mutable folders
 resources/
 results/
+tmp/
+temp/

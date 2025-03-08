@@ -1,14 +1,23 @@
 """Rules to used to download automatic resource files."""
 
 
-rule dummy_download:
+rule download_country_shapes:
     message:
-        "Download the clio README file."
+        "Download country shape: {wildcards.country}-{wildcards.subtype}."
     params:
-        url=internal["resources"]["automatic"]["dummy_readme"],
+        version=internal["resources"]["overture_release"],
     output:
-        readme="resources/automatic/dummy_readme.md",
+        path="resources/automatic/overture/{country}_{subtype}.parquet",
     conda:
-        "../envs/shell.yaml"
-    shell:
-        "curl -sSLo {output.readme} \"{params.url}\""
+        "../envs/shape.yaml"
+    script: "../scripts/download_country_shapes.py"
+
+
+rule download_marine_eez_shapes:
+    message:
+        "Download global exclusive economic zone (eez) data."
+    output:
+        path="resources/automatic/marineregions/eez.parquet",
+    conda:
+        "../envs/shape.yaml"
+    script: "../scripts/download_marine_shapes.py"
