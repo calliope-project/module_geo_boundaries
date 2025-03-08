@@ -1,0 +1,20 @@
+# Module Input-Output structure for automated doc. generation
+resources:
+  user:
+    user_message.md: "Example file emulating external files requested from a user."
+  automatic:
+    dummy_readme.md: "Example file emulating downloads determined by internal settings."
+results:
+  combined_text.md: "Example file emulating module results."
+
+# Wildcard example:
+# resources:
+#   user:
+#     shapes_{resolution}.geojson: region geometries.
+#   automatic:
+#     technology_data.parquet: dataset with technology characteristics.
+# results:
+#   '{resolution}/tech_capacity.parquet': description of output data.
+#   '{resolution}/results_image.png': description of output image.
+# wildcards:
+#   resolution: description of the wildcard’s purpose.

@@ -1,0 +1,13 @@
+# Changes here will be overwritten by Copier
+# DO NOT MANUALLY MODIFY THIS FILE
+_commit: 977c0ba
+_src_path: ./
+author_email: i.ruizmanuel@tudelft.nl
+author_family_name: Ruiz Manuel
+author_given_name: Ivan
+github_org: calliope-project
+license: Apache-2.0
+module_description: A data module to create arbitrary regional boundaries for energy
+    systems modelling.
+module_long_name: clio - Geo-boundaries module
+module_short_name: geo_boundaries_module

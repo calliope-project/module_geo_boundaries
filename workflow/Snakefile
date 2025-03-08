@@ -1,0 +1,34 @@
+import yaml
+
+from snakemake.utils import min_version, validate
+
+min_version("8.10")
+
+
+# Load the example configuration. This will be overridden by users.
+configfile: workflow.source_path("../config/example.yaml")
+
+
+# Validate the configuration using the schema file.
+validate(config, workflow.source_path("internal/config.schema.yaml"))
+
+# Load internal settings separately so users cannot modify them.
+with open(workflow.source_path("internal/settings.yaml"), "r") as f:
+    internal = yaml.safe_load(f)
+
+
+# Add all your includes here.
+include: "rules/automatic.smk"
+include: "rules/dummy.smk"
+
+
+rule all:
+    message:
+        "ERROR: Invalid `rule all:` call"
+    default_target: True
+    output:
+        "INVALID",
+    run:
+        raise ValueError(
+            "This workflow must be called as a snakemake module via the `module:` command."
+        )

@@ -1,0 +1,11 @@
+# Citation file
+# For more information, see:
+# https://citation-file-format.github.io/
+cff-version: 1.2.0
+message: If you use this software or data produced by it, please cite it using the metadata from this file.
+title: "clio - geo_boundaries_module: clio - Geo-boundaries module"
+repository: "https://github.com/calliope-project/geo_boundaries_module"
+license: Apache-2.0
+authors:
+  - given-names: Ivan
+    family-names: Ruiz Manuel
