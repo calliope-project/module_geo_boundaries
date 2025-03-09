@@ -1,3 +1,10 @@
 # A minimal example of how to configure this module
-country: "DNK"
-subtype: "region"
+countries:
+  - name: "DNK"
+    subtype: "country"
+  - name: "GBR"
+    subtype: "country"
+  - name: "NLD"
+    subtype: "country"
+  - name: "BEL"
+    subtype: "country"

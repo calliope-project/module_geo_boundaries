@@ -1,4 +1,7 @@
-"""Rules to used to download automatic resource files."""
+"""Rules to used to download resource files.
+
+Small transformations might be performed to make the data easier to work with.
+"""
 
 
 rule download_country_area:

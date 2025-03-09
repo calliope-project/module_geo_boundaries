@@ -35,7 +35,7 @@ def download_country_area(country: str, subtype: str, version: str, path: str):
             SELECT
                 '{country}' AS country_id,
                 '{country}' || '-' || names.primary AS shape_id,
-                names.primary AS
+                names.primary AS overture_name,
                 class,
                 subtype AS overture_subtype,
                 sources AS overture_sources,
