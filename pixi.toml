@@ -25,6 +25,7 @@ duckdb = ">=1.2.0,<2"
 geopandas = ">=1.0.1,<2"
 pyarrow = ">=19.0.1,<20"
 pycountry = ">=24.6.1,<25"
+ipdb = ">=0.13.13,<0.14"
 
 [pypi-dependencies]
 mkdocs-mermaid2-plugin = ">=1.2.1"

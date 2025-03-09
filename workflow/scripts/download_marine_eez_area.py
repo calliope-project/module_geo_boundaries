@@ -18,7 +18,40 @@ MARINE_URL = "https://www.marineregions.org/download_file.php"
 FILE = "World_EEZ_v12_20231025_gpkg"
 
 
-def download_marine_shape(path: str):
+def transform_to_clio(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """Transform the MarineRegions dataset for better clio compatibility.
+
+    - Removes geopolitically contested areas
+    - Adds common naming conventions.
+
+    Args:
+        gdf (gpd.GeoDataFrame): A marine regions geo-dataframe.
+
+    Returns:
+        gpd.GeoDataFrame: standardised dataframe.
+    """
+    # remove contested areas and potential attribution conflicts
+    std_gdf = gdf[~gdf["POL_TYPE"].isin(["Joint regime", "Overlapping claim"])]
+    # slim the data
+    std_gdf = std_gdf[["MRGID", "ISO_TER1", "ISO_SOV1", "GEONAME", "geometry"]]
+    # add additional data for traceability
+    std_gdf["class"] = "maritime"
+    std_gdf["shape_id"] = std_gdf.apply(
+        lambda x: "_".join([str(x["ISO_TER1"]), str(x["MRGID"])]), axis="columns"
+    )
+    # rename columns to make them more human-friendly
+    std_gdf = std_gdf.rename(
+        columns={
+            "MRGID": "marineregions_mrgid",
+            "ISO_TER1": "country_id",
+            "ISO_SOV1": "sovereign_country_id",
+            "GEONAME": "marineregions_name",
+        }
+    )
+    return std_gdf
+
+
+def download_marine_eez_area(path: str):
     """Download data from the marineregions database.
 
     Adapted from PyPSA-Eur code (MIT licensed).
@@ -47,8 +80,9 @@ def download_marine_shape(path: str):
         unpack_archive(tmp_path / "tmp.zip", tmp_path)
         gdf = gpd.read_file(tmp_path / FILE / "eez_v12.gpkg")
 
+    gdf = transform_to_clio(gdf)
     gdf.to_parquet(path)
 
 
 if __name__ == "__main__":
-    download_marine_shape(snakemake.output.path)
+    download_marine_eez_area(snakemake.output.path)

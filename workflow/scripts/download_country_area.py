@@ -8,9 +8,12 @@ import pycountry
 if TYPE_CHECKING:
     snakemake: Any
 
-OVERTURE_LINK = "s3://overturemaps-us-west-2/release/{version}/theme=divisions/type=division_area/*"
+OVERTURE_LINK = (
+    "s3://overturemaps-us-west-2/release/{version}/theme=divisions/type=division_area/*"
+)
 
-def download_country_shapes(country: str, subtype: str, version: str, path: str):
+
+def download_country_area(country: str, subtype: str, version: str, path: str):
     """Download country division areas from Overture maps.
 
     Uses duckdb for remote interfacing and 'larger than memory' file generation.
@@ -30,12 +33,13 @@ def download_country_shapes(country: str, subtype: str, version: str, path: str)
         f"""
         COPY (
             SELECT
-                '{country}' as country_id,
+                '{country}' AS country_id,
                 '{country}' || '-' || names.primary AS shape_id,
-                class as overture_class,
-                subtype as overture_subtype,
-                sources as overture_sources,
-                id as overture_id,
+                names.primary AS
+                class,
+                subtype AS overture_subtype,
+                sources AS overture_sources,
+                id AS overture_id,
                 geometry
             FROM
                 read_parquet(
@@ -52,13 +56,19 @@ def download_country_shapes(country: str, subtype: str, version: str, path: str)
             FORMAT parquet,
             COMPRESSION zstd
         );
-        """)
+        """
+    )
+
+    db = duckdb.read_parquet(path)
+    if not db.shape[0] > 0:
+        raise ValueError(f"Resulting data is empty for '{country}_{subtype}'.")
+    # Check if the resulting dataframe actually contains data
 
 
 if __name__ == "__main__":
-    download_country_shapes(
+    download_country_area(
         country=snakemake.wildcards.country,
         subtype=snakemake.wildcards.subtype,
         version=snakemake.params.version,
-        path=snakemake.output.path
+        path=snakemake.output.path,
     )
