@@ -32,22 +32,24 @@ def transform_to_clio(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """
     # remove contested areas and potential attribution conflicts
     std_gdf = gdf[~gdf["POL_TYPE"].isin(["Joint regime", "Overlapping claim"])]
-    # slim the data
-    std_gdf = std_gdf[["MRGID", "ISO_TER1", "ISO_SOV1", "GEONAME", "geometry"]]
-    # add additional data for traceability
-    std_gdf["class"] = "maritime"
-    std_gdf["shape_id"] = std_gdf.apply(
-        lambda x: "_".join([str(x["ISO_TER1"]), str(x["MRGID"])]), axis="columns"
-    )
-    # rename columns to make them more human-friendly
+
+    # Standardise
     std_gdf = std_gdf.rename(
         columns={
-            "MRGID": "marineregions_mrgid",
             "ISO_TER1": "country_id",
             "ISO_SOV1": "sovereign_country_id",
-            "GEONAME": "marineregions_name",
+            "MRGID": "parent_id",
+            "GEONAME": "parent_name",
         }
     )
+    std_gdf["shape_id"] = std_gdf.apply(
+        lambda x: "_".join([str(x["country_id"]), "marineregions", str(x["parent_id"])]), axis="columns"
+    )
+    std_gdf["class"] = "maritime"
+    std_gdf["parent"] = "marineregions"
+    std_gdf["parent_subtype"] = "eez"
+    # slim the data
+    std_gdf = std_gdf[["shape_id", "country_id", "class", "geometry", "parent", "parent_subtype", "parent_id", "parent_name"]]
     return std_gdf
 
 

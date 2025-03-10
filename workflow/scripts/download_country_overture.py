@@ -13,7 +13,7 @@ OVERTURE_LINK = (
 )
 
 
-def download_country_area(country: str, subtype: str, version: str, path: str):
+def download_country_overture(country: str, subtype: str, version: str, path: str):
     """Download country division areas from Overture maps.
 
     Uses duckdb for remote interfacing and 'larger than memory' file generation.
@@ -28,19 +28,19 @@ def download_country_area(country: str, subtype: str, version: str, path: str):
         connection.load_extension(extension)
     connection.sql("SET s3_region='us-west-2'")
 
-    # Request country dataset with added clio metadata
+    # Request country dataset with added metadata
     connection.sql(
         f"""
         COPY (
             SELECT
+                '{country}' || '_' || 'overture' || '_' || id AS shape_id,
                 '{country}' AS country_id,
-                '{country}' || '-' || names.primary AS shape_id,
-                names.primary AS overture_name,
                 class,
-                subtype AS overture_subtype,
-                sources AS overture_sources,
-                id AS overture_id,
-                geometry
+                geometry,
+                'overture' AS parent,
+                subtype AS parent_subtype,
+                id AS parent_id,
+                names.primary AS parent_name
             FROM
                 read_parquet(
                     '{OVERTURE_LINK.format(version=version)}',
@@ -66,7 +66,7 @@ def download_country_area(country: str, subtype: str, version: str, path: str):
 
 
 if __name__ == "__main__":
-    download_country_area(
+    download_country_overture(
         country=snakemake.wildcards.country,
         subtype=snakemake.wildcards.subtype,
         version=snakemake.params.version,
