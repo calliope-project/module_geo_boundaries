@@ -10,8 +10,7 @@ configfile: workflow.source_path("../config/example.yaml")
 
 
 # Validate the configuration using the schema file.
-# TODO: add back
-# validate(config, workflow.source_path("internal/config.schema.yaml"))
+validate(config, workflow.source_path("internal/config.schema.yaml"))
 
 # Load internal settings separately so users cannot modify them.
 with open(workflow.source_path("internal/settings.yaml"), "r") as f:

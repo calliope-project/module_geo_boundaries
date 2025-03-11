@@ -1,8 +1,27 @@
 $schema: "https://json-schema.org/draft/2020-12/schema"
 description: "Schema for user-provided configuration files."
 type: object
-additionalProperties: false
 properties:
-  dummy_text:
-    description: A template example. Should be deleted in real applications.
-    type: string
+  countries:
+    type: array
+    items:
+      type: object
+      properties:
+        country_id:
+          type: string
+          pattern: "^[A-Z]{3}$"
+        subtype:
+          type: string
+        source:
+          type: string
+          enum: ["overture", "gadm"]
+      required:
+        - country_id
+        - subtype
+        - source
+      additionalProperties: false
+    minItems: 1
+    uniqueItems: true
+required:
+  - countries
+additionalProperties: false
