@@ -15,7 +15,3 @@ countries:
   - country_id: "CHE"
     subtype: "country"
     source: "overture"
-  - country_id: "MEX"
-    subtype: "region"
-    source: "overture"
-crs: "epsg:4326"

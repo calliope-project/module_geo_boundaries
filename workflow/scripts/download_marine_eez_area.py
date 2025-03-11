@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
 import requests
+from _schema import schema
 
 if TYPE_CHECKING:
     snakemake: Any
@@ -51,19 +52,8 @@ def transform_to_clio(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     std_gdf["class"] = "maritime"
     std_gdf["parent"] = "marineregions"
     std_gdf["parent_subtype"] = "eez"
-    # slim the data
-    std_gdf = std_gdf[
-        [
-            "shape_id",
-            "country_id",
-            "class",
-            "geometry",
-            "parent",
-            "parent_subtype",
-            "parent_id",
-            "parent_name",
-        ]
-    ]
+    # slim the data to only the 'standard' columns
+    std_gdf = std_gdf[schema.columns.keys()]
     return std_gdf
 
 

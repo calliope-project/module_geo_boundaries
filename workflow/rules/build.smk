@@ -5,7 +5,7 @@ rule build_combined_area:
     message:
         "Combine land and marine polygons."
     params:
-        crs=config["crs"]
+        crs=internal["standarisation"]["crs"]
     input:
         countries= [f"resources/automatic/countries/{c['source']}_{c['country_id']}_{c['subtype']}.parquet" for c in config["countries"]],
         marine= "resources/automatic/marineregions/eez.parquet"

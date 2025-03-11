@@ -59,11 +59,6 @@ def download_country_overture(country: str, subtype: str, version: str, path: st
         """
     )
 
-    db = duckdb.read_parquet(path)
-    if not db.shape[0] > 0:
-        raise ValueError(f"Resulting data is empty for '{country}_{subtype}'.")
-    # Check if the resulting dataframe actually contains data
-
 
 if __name__ == "__main__":
     download_country_overture(

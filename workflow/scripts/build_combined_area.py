@@ -4,28 +4,17 @@ from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
 import pandas as pd
+from _schema import schema
 
 if TYPE_CHECKING:
     snakemake: Any
-
-
-STANDARD_COLS = [
-    "shape_id",
-    "country_id",
-    "class",
-    "geometry",
-    "parent",
-    "parent_subtype",
-    "parent_id",
-    "parent_name",
-]
 
 
 def build_combined_area(
     country_files: list[str], marine_file: str, crs: str, combined_file: str
 ):
     """Create a single file with the requested geographical scope."""
-    combined = gpd.GeoDataFrame(columns=STANDARD_COLS)
+    combined = gpd.GeoDataFrame(columns=schema.columns)
     combined = combined.set_crs(crs)
     marine = gpd.read_parquet(marine_file)
     marine = marine.to_crs(crs)
@@ -54,8 +43,7 @@ def build_combined_area(
             combined = pd.concat([combined, country_land], ignore_index=True)
 
     combined = combined.reset_index(drop=True)
-    # TODO: improve standardisation of the datasets
-    combined["parent_id"] = combined["parent_id"].apply(str)
+    combined = schema(combined)
     combined.to_parquet(combined_file)
 
 
