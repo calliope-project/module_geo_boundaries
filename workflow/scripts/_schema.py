@@ -14,5 +14,5 @@ schema = pa.DataFrameSchema(
         "parent_name": pa.Column(str),
     },
     coerce=True,
-    strict=True
+    strict=True,
 )

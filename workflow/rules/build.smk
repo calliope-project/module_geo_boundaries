@@ -5,12 +5,15 @@ rule build_combined_area:
     message:
         "Combine land and marine polygons."
     params:
-        crs=internal["standarisation"]["crs"]
+        crs=internal["standarisation"]["crs"],
     input:
-        countries= [f"resources/automatic/countries/{c['source']}_{c['country_id']}_{c['subtype']}.parquet" for c in config["countries"]],
-        marine= "resources/automatic/marineregions/eez.parquet"
+        countries=[
+            f"resources/automatic/countries/{c['source']}_{c['country_id']}_{c['subtype']}.parquet"
+            for c in config["countries"]
+        ],
+        marine="resources/automatic/marineregions/eez.parquet",
     output:
-        combined= "results/shapes.parquet"
+        combined="results/shapes.parquet",
     conda:
         "../envs/shape.yaml"
     script:

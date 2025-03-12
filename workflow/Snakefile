@@ -21,6 +21,7 @@ with open(workflow.source_path("internal/settings.yaml"), "r") as f:
 include: "rules/automatic.smk"
 include: "rules/build.smk"
 
+
 rule all:
     message:
         "ERROR: Invalid `rule all:` call"
