@@ -4,6 +4,11 @@ A data module to create arbitrary regional boundaries for energy systems modelli
 
 A modular `snakemake` workflow built for [`clio`](https://clio.readthedocs.io/) data modules.
 
+## Using this module
+
+This module can be imported directly into any `snakemake` workflow.
+Please consult the integration example in `tests/integration/Snakefile` for more information.
+
 ## Development
 
 We use [`pixi`](https://pixi.sh/) for as our package manager for development.
@@ -19,12 +24,6 @@ For testing, simply run:
 
 ```shell
 pixi run test
-```
-
-To view the documentation locally, use:
-
-```shell
-pixi run serve-docs
 ```
 
 To test a minimal example of a workflow using this module:
