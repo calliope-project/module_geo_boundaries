@@ -41,6 +41,7 @@ repos:
     rev: v2.4.1
     hooks:
     - id: codespell
+      args: [--exclude-file='pixi.lock']
 
 ci:  # https://pre-commit.ci/
   autoupdate_schedule: monthly
