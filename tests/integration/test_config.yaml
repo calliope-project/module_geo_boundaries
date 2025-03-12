@@ -1,11 +1,5 @@
-geo_boundaries_module:
+module_geo_boundaries:
   countries:
-    - country_id: "JPN"
-      subtype: "1"
-      source: "gadm"
-    - country_id: "KOR"
-      subtype: "region"
-      source: "overture"
-    - country_id: "TWN"
+    - country_id: "MNE"
       subtype: "0"
       source: "gadm"

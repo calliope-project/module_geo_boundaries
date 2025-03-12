@@ -10,8 +10,8 @@ We use [`pixi`](https://pixi.sh/) for as our package manager for development.
 Once installed, run the following to clone this repo and install all dependencies.
 
 ```shell
-git clone git@github.com:calliope-project/geo_boundaries_module.git
-cd geo_boundaries_module
+git clone git@github.com:calliope-project/module_geo_boundaries.git
+cd module_geo_boundaries
 pixi install --all
 ```
 

@@ -10,5 +10,5 @@ license: Apache-2.0
 module_description: A module to create arbitrary regional boundary datasets for energy
     systems modelling
 module_long_name: clio - Geo-boundaries module
-module_short_name: geo_boundaries_module
+module_short_name: module_geo_boundaries
 readthedocs: false

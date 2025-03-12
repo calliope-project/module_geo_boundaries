@@ -23,9 +23,5 @@ temp/
 tmp/
 
 # Show mutable folders, but do not commit resulting files
-resources/user/*
-!resources/user/.gitkeep
-resources/automatic/*
-!resources/automatic/.gitkeep
-results/*
-!results/.gitkeep
+resources/
+results/

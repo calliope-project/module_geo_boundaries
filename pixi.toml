@@ -1,5 +1,5 @@
 [project]
-name = "geo_boundaries_module"
+name = "module_geo_boundaries "
 version = "0.1.0"
 authors = ["See AUTHORS file"]
 description = "A data module to create arbitrary regional boundaries for energy systems modelling."
