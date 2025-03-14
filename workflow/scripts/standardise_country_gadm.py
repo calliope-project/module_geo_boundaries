@@ -29,7 +29,7 @@ def standardise_country_gadm(
             "parent": "gadm",
             "parent_subtype": subtype,
             "parent_id": gdf[f"GID_{subtype}"],
-            "parent_name": gdf[f"NAME_{subtype}"]
+            "parent_name": gdf[f"NAME_{subtype}"],
         }
     )
     standardised.to_parquet(output_path)
