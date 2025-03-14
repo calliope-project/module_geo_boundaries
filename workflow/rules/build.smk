@@ -8,8 +8,8 @@ rule build_combined_area:
         crs=internal["standardisation"]["crs"],
     input:
         countries=[
-            f"resources/automatic/countries/{c['source']}_{c['country_id']}_{c['subtype']}.parquet"
-            for c in config["countries"]
+            f"resources/automatic/countries/{country['source']}_{country['country_id']}_{country['subtype']}.parquet"
+            for country in config["countries"]
         ],
         marine="resources/automatic/marineregions/eez.parquet",
     output:

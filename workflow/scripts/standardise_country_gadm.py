@@ -20,26 +20,19 @@ def standardise_country_gadm(
         output_path (str): path to output file.
     """
     gdf = gpd.read_parquet(input_path)
-    gdf["country_id"] = gdf["GID_0"]
-    gdf["class"] = "land"
-    gdf["parent"] = "gadm"
-    gdf["parent_subtype"] = subtype
-    gdf["parent_id"] = gdf[f"GID_{subtype}"]
-    gdf["parent_name"] = gdf[f"NAME_{subtype}"]
-    gdf["shape_id"] = gdf["parent_id"].apply(lambda x: f"{country_id}_gadm_{x}")
-    gdf = gdf[
-        [
-            "shape_id",
-            "country_id",
-            "class",
-            "geometry",
-            "parent",
-            "parent_subtype",
-            "parent_id",
-            "parent_name",
-        ]
-    ]
-    gdf.to_parquet(output_path)
+    standardised = gpd.GeoDataFrame(
+        {
+            "shape_id": gdf[f"GID_{subtype}"].apply(lambda x: f"{country_id}_gadm_{x}"),
+            "country_id": gdf["GID_0"],
+            "class": "land",
+            "geometry": gdf["geometry"],
+            "parent": "gadm",
+            "parent_subtype": subtype,
+            "parent_id": gdf[f"GID_{subtype}"],
+            "parent_name": gdf[f"NAME_{subtype}"]
+        }
+    )
+    standardised.to_parquet(output_path)
 
 
 if __name__ == "__main__":
