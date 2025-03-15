@@ -1,2 +1,17 @@
 # A minimal example of how to configure this module
-dummy_text: This is a user input.
+countries:
+  - country_id: "DNK"
+    subtype: "1"
+    source: "gadm"
+  - country_id: "GBR"
+    subtype: "country"
+    source: "overture"
+  - country_id: "NLD"
+    subtype: "2"
+    source: "gadm"
+  - country_id: "BEL"
+    subtype: "country"
+    source: "overture"
+  - country_id: "CHE"
+    subtype: "country"
+    source: "overture"

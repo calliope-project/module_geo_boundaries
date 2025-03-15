@@ -18,6 +18,10 @@ gurobi.log
 ### Notebooks
 .ipynb_checkpoints
 
-# Mutable folders
+# testing folders
+temp/
+tmp/
+
+# Show mutable folders, but do not commit resulting files
 resources/
 results/

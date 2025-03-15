@@ -1,5 +1,5 @@
 [project]
-name = "geo_boundaries_module"
+name = "module_geo_boundaries"
 version = "0.1.0"
 authors = ["See AUTHORS file"]
 description = "A data module to create arbitrary regional boundaries for energy systems modelling."
@@ -11,20 +11,15 @@ homepage = "https://clio.readthedocs.io/"
 
 [dependencies]
 python = ">=3.12"
-mkdocs-material = ">=9.6.7"
 mypy = ">=1.15.0"
 pytest = ">=8.3.5"
 ruff = ">=0.9.9"
 snakefmt = ">=0.10.2"
 conda = ">=25.0.0"
 snakemake-minimal = ">=8.29.0"
-cffconvert = ">=2.0.0"
 clio-tools = ">=2025.03.03"
-
-[pypi-dependencies]
-mkdocs-mermaid2-plugin = ">=1.2.1"
+ipykernel = ">=6.29.5"
+ipdb = ">=0.13.13"
 
 [tasks]
 test = {cmd = "pytest tests/"}
-serve-docs = {cmd = "mkdocs serve"}
-build-docs = {cmd = "mkdocs build"}

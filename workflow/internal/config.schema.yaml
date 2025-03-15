@@ -1,8 +1,32 @@
 $schema: "https://json-schema.org/draft/2020-12/schema"
 description: "Schema for user-provided configuration files."
 type: object
-additionalProperties: false
 properties:
-  dummy_text:
-    description: A template example. Should be deleted in real applications.
-    type: string
+  countries:
+    description: List of countries to gather and combine.
+    type: array
+    items:
+      type: object
+      properties:
+        country_id:
+          description: "Country code in ISO alpha-3 format (e.g., MEX, CHN, DEU)."
+          type: string
+          pattern: "^[A-Z]{3}$"
+        subtype:
+          description: >
+            "Regional aggregation to gather (e.g., "0", "1" or "2" for GADM). Names vary per dataset."
+          type: string
+        source:
+          description: "Dataset to use as source."
+          type: string
+          enum: ["overture", "gadm"]
+      required:
+        - country_id
+        - subtype
+        - source
+      additionalProperties: false
+    minItems: 1
+    uniqueItems: true
+required:
+  - countries
+additionalProperties: false

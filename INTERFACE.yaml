@@ -1,20 +1,11 @@
 # Module Input-Output structure for automated doc. generation
 resources:
-  user:
-    user_message.md: "Example file emulating external files requested from a user."
   automatic:
-    dummy_readme.md: "Example file emulating downloads determined by internal settings."
+    "countries/{dataset}_{country}_{subtype}.parquet": "Geodata for country regions."
+    "marineregions/eez.parquet": "Geodata for marine exclusive economic zones."
 results:
-  combined_text.md: "Example file emulating module results."
-
-# Wildcard example:
-# resources:
-#   user:
-#     shapes_{resolution}.geojson: region geometries.
-#   automatic:
-#     technology_data.parquet: dataset with technology characteristics.
-# results:
-#   '{resolution}/tech_capacity.parquet': description of output data.
-#   '{resolution}/results_image.png': description of output image.
-# wildcards:
-#   resolution: description of the wildcard’s purpose.
+  "shapes.parquet": "Harmonised geodata for all configured countries, including non-contested exclusive economic zones."
+wildcards:
+  dataset: main data where the data was fetched from (i.e., GADM).
+  country: ISO alpha-3 code.
+  subtype: regional configuration of the country (i.e., "region", "county" for Overture Maps). Varies per dataset.
