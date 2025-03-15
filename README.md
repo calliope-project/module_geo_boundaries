@@ -4,6 +4,15 @@ A data module to create arbitrary regional boundaries for energy systems modelli
 
 A modular `snakemake` workflow built for [`clio`](https://clio.readthedocs.io/) data modules.
 
+## Steps
+
+1. Data is downloaded and harmonized using a commmon schema (see `workflow/scripts/_schema.py`).
+    - Country area data: for now, only [GADM](https://gadm.org/) and [Overture Maps](https://overturemaps.org/) divisions are supported as datasources.
+    - [Marine regions](https://www.marineregions.org/) Exclusive Economic Zone (EEZ) data.
+2. Country area is clipped using the marine regions to approximate their landmass.
+3. The marine data and the clipped land mass data are combined following the schema.
+Contested EEZ's (e.g., Taiwan, Falkland islands) are removed during this step.
+
 ## Using this module
 
 This module can be imported directly into any `snakemake` workflow.

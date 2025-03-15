@@ -30,14 +30,18 @@ def build_combined_area(
         country_id = country_id[0]
         country_land = country_land.to_crs(crs)
 
-        # if the country has maritime boundaries, clip them
         if country_id in marine["country_id"].unique():
+            # clip maritime boundaries
             country_marine = marine[marine["country_id"] == country_id]
             country_land["geometry"] = country_land.difference(
                 country_marine.union_all(), align=False
             )
+            # only add uncontested maritime boundaries
+            uncontested = country_marine[~country_marine["contested"]].drop(
+                "contested", axis="columns"
+            )
             combined = pd.concat(
-                [combined, country_land, country_marine], ignore_index=True
+                [combined, country_land, uncontested], ignore_index=True
             )
         else:
             combined = pd.concat([combined, country_land], ignore_index=True)

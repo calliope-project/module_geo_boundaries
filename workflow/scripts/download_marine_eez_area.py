@@ -31,30 +31,32 @@ def transform_to_clio(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     Returns:
         gpd.GeoDataFrame: standardised dataframe.
     """
-    # remove contested areas and potential attribution conflicts
-    std_gdf = gdf[~gdf["POL_TYPE"].isin(["Joint regime", "Overlapping claim"])]
-
-    # Standardise
-    std_gdf = std_gdf.rename(
-        columns={
-            "ISO_TER1": "country_id",
-            "ISO_SOV1": "sovereign_country_id",
-            "MRGID": "parent_id",
-            "GEONAME": "parent_name",
+    standardised = gpd.GeoDataFrame(
+        {
+            "shape_id": gdf.apply(
+                lambda x: "_".join(
+                    [str(x["ISO_TER1"]), "marineregions", str(x["MRGID"])]
+                ),
+                axis="columns",
+            ),
+            "country_id": gdf["ISO_TER1"],
+            "class": "maritime",
+            "geometry": gdf["geometry"],
+            "parent": "marineregions",
+            "parent_subtype": "eez",
+            "parent_id": gdf["MRGID"],
+            "parent_name": gdf["GEONAME"],
         }
     )
-    std_gdf["shape_id"] = std_gdf.apply(
-        lambda x: "_".join(
-            [str(x["country_id"]), "marineregions", str(x["parent_id"])]
-        ),
-        axis="columns",
+    # Remove cases without territorial ISO code
+    standardised = standardised[~standardised["country_id"].isna()]
+    # Check that the base columns fit the schema
+    standardised = schema(standardised)
+    # Extra: identify contested areas and potential attribution conflicts
+    standardised["contested"] = gdf["POL_TYPE"].apply(
+        lambda x: True if x in ["Joint regime", "Overlapping claim"] else False
     )
-    std_gdf["class"] = "maritime"
-    std_gdf["parent"] = "marineregions"
-    std_gdf["parent_subtype"] = "eez"
-    # slim the data to only the 'standard' columns
-    std_gdf = std_gdf[schema.columns.keys()]
-    return std_gdf
+    return standardised
 
 
 def download_marine_eez_area(path: str):
