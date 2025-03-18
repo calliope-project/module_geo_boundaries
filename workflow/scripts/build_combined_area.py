@@ -16,12 +16,15 @@ def _remove_overlaps(
 ) -> gpd.GeoDataFrame:
     """Remove overlaps between regional shapes.
 
-    Applies a buffer region to all shapes, and then clips each shape using its neighbors.
+    Applies a buffer to all shapes, and then clips each shape using its neighbors.
 
     Args:
         gdf (gpd.GeoDataFrame): dataframe with regional shapes.
         buffer (float): buffer radius (unit depends on the projected CRS used).
-        crs (str): CRS to use. Must be projected.
+        projected_crs (str): CRS to use. Must be projected.
+
+    Returns:
+        gpd.GeoDataFrame: buffered dataframe.
     """
     # Buffering requires a projected CRS
     assert CRS(projected_crs).is_projected
