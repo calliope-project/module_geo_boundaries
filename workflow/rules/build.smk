@@ -6,7 +6,7 @@ rule build_combined_area:
         "Combine land and marine polygons."
     params:
         buffer=config["buffer"],
-        crs=config["crs"]
+        crs=config["crs"],
     input:
         countries=[
             f"resources/automatic/countries/{country['source']}_{country['country_id']}_{country['subtype']}.parquet"
