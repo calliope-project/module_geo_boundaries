@@ -4,5 +4,3 @@ resources:
     # Links for automatically downloaded files
     dummy_readme: "https://raw.githubusercontent.com/calliope-project/clio/refs/heads/main/README.md"
   overture_release: "2025-01-22.0"
-standardisation:
-  crs: "epsg:4326"

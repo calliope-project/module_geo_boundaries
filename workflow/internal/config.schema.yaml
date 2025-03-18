@@ -2,6 +2,26 @@ $schema: "https://json-schema.org/draft/2020-12/schema"
 description: "Schema for user-provided configuration files."
 type: object
 properties:
+  buffer:
+    description: >
+      Buffer boundary between shapes. Unit will be the one used by the projected CRS.
+      If zero, no buffer will be applied, which may lead to overlaps between shapes.
+    type: integer
+    minimum: 0
+  crs:
+    description: CRS codes in the form 'epsg:xxxx'.
+    type: object
+    properties:
+      projected:
+        type: string
+        pattern: "^epsg:\\d{4,5}$"
+      geographic:
+        type: string
+        pattern: "^epsg:\\d{4,5}$"
+    required:
+      - projected
+      - geographic
+    additionalProperties: False
   countries:
     description: List of countries to gather and combine.
     type: array
@@ -29,4 +49,6 @@ properties:
     uniqueItems: true
 required:
   - countries
+  - buffer
+  - crs
 additionalProperties: false
