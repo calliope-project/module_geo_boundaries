@@ -24,7 +24,7 @@ def standardise_country_gadm(
         {
             "shape_id": gdf[f"GID_{subtype}"].apply(lambda x: f"{country_id}_gadm_{x}"),
             "country_id": gdf["GID_0"],
-            "class": "land",
+            "shape_class": "land",
             "geometry": gdf["geometry"],
             "parent": "gadm",
             "parent_subtype": subtype,

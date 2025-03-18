@@ -35,7 +35,7 @@ def download_country_overture(country: str, subtype: str, version: str, path: st
             SELECT
                 '{country}' || '_' || 'overture' || '_' || id AS shape_id,
                 '{country}' AS country_id,
-                class,
+                class AS shape_class,
                 geometry,
                 'overture' AS parent,
                 subtype AS parent_subtype,

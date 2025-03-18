@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
 import pandas as pd
-from _schema import schema
+from _schema import GeoDataFrame, ShapeSchema
 from pyproj import CRS
 
 if TYPE_CHECKING:
@@ -42,10 +42,9 @@ def _remove_overlaps(
         neighbours = neighbours[neighbours.index != index]
         new_geometry = row["geometry"].difference(neighbours.union_all())
 
-        # Ensure the resulting shape has no bowties
         if not new_geometry.is_valid:
             new_geometry = new_geometry.buffer(0)
-            assert new_geometry.is_valid
+            assert new_geometry.is_valid, "Invalid bowties could not be corrected."
         projected.loc[index, "geometry"] = new_geometry
 
     return projected.to_crs(original_crs)
@@ -68,7 +67,7 @@ def _combine_shapes(
         gpd.GeoDataFrame: Combined dataframe using the given CRS.
     """
     assert CRS(geographic_crs).is_geographic
-    combined = gpd.GeoDataFrame(columns=schema.columns)
+    combined = gpd.GeoDataFrame(columns=ShapeSchema.to_schema().columns)
     combined = combined.set_crs(geographic_crs)
 
     marine = gpd.read_parquet(marine_file)
@@ -117,7 +116,7 @@ def build_combined_area(
     if buffer > 0:
         combined = _remove_overlaps(combined, buffer, crs["projected"])
 
-    combined = schema(combined)
+    combined = GeoDataFrame[ShapeSchema](combined)
     combined.to_parquet(combined_file)
 
 

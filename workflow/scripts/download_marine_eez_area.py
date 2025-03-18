@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
 import requests
-from _schema import schema
+from _schema import GeoDataFrame, ShapeSchema
 
 if TYPE_CHECKING:
     snakemake: Any
@@ -40,7 +40,7 @@ def transform_to_clio(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
                 axis="columns",
             ),
             "country_id": gdf["ISO_TER1"],
-            "class": "maritime",
+            "shape_class": "maritime",
             "geometry": gdf["geometry"],
             "parent": "marineregions",
             "parent_subtype": "eez",
@@ -51,7 +51,7 @@ def transform_to_clio(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     # Remove cases without territorial ISO code
     standardised = standardised[~standardised["country_id"].isna()]
     # Check that the base columns fit the schema
-    standardised = schema(standardised)
+    standardised = GeoDataFrame[ShapeSchema](standardised)
     # Extra: identify contested areas and potential attribution conflicts
     standardised["contested"] = gdf["POL_TYPE"].apply(
         lambda x: True if x in ["Joint regime", "Overlapping claim"] else False

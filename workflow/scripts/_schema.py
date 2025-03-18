@@ -1,18 +1,28 @@
 """General schema that the produced dataset should follow."""
 
-import pandera as pa
+from pandera import DataFrameModel, Field
+from pandera.typing import Series
+from pandera.typing.geopandas import GeoDataFrame, GeoSeries  # noqa: F401
 
-schema = pa.DataFrameSchema(
-    {
-        "shape_id": pa.Column(str),
-        "country_id": pa.Column(str),
-        "class": pa.Column(str, pa.Check.isin(["land", "maritime"])),
-        "geometry": pa.Column("geometry"),
-        "parent": pa.Column(str, pa.Check.isin(["gadm", "overture", "marineregions"])),
-        "parent_subtype": pa.Column(str),
-        "parent_id": pa.Column(str),
-        "parent_name": pa.Column(str),
-    },
-    coerce=True,
-    strict=True,
-)
+
+class ShapeSchema(DataFrameModel):
+    shape_id: Series[str] = Field(unique=True)
+    """A unique identifier for this shape."""
+    country_id: Series[str]
+    """Country ISO alpha-3 code."""
+    shape_class: Series[str] = Field(isin=["land", "maritime"])
+    """Identifier of the shape's context."""
+    geometry: GeoSeries
+    """Shape (multi)polygon."""
+    parent: Series[str] = Field(isin=["gadm", "overture", "marineregions"])
+    """Parent dataset."""
+    parent_subtype: Series[str]
+    """Region disaggregation level in the parent dataset."""
+    parent_id: Series[str]
+    """Unique id in the parent dataset."""
+    parent_name: Series[str]
+    """Human-readable name in the parent dataset."""
+
+    class Config:
+        coerce = True
+        strict = True
