@@ -1,33 +1,27 @@
 # Emulate a user configuring the module.
 configfile: workflow.source_path("./test_config.yaml")
 
-# Emulate how another workflow might create inputs for this module.
-rule create_external_input:
-    message: "Example of a rule external to your module."
-    output:
-        text_file = "resources/user/user_message.md"
-    run:
-        from pathlib import Path
-        from textwrap import dedent
-        text = dedent("""Modular workflows can be used by more than one project!
-            For example, this text comes from a file external to the module.
-            Try your best to make this workflow reusable so that others may benefit from your methods."""
-        )
-        file_path = Path(output.text_file)
-        with file_path.open("w") as f:
-            f.write(text)
 
 # Import the module and configure it.
-# `snakefile:` can use plain paths, URLs or special github(...) / gitlab(...) markers
-module module_geo_boundaries_module:
-    snakefile: "../../workflow/Snakefile"
-    config: config["module_geo_boundaries_module"]
+# `snakefile:` can use plain paths, URLs or special github(...) / gitlab(...) markers.
+# `prefix:` re-routes all input/output paths of the module, helping to avoid file conflicts.
+module module_geo_boundaries:
+    snakefile:
+        "../../workflow/Snakefile"
+    config:
+        config["module_geo_boundaries"]
+    prefix:
+        "results/module_geo_boundaries/"
 
-use rule * from module_geo_boundaries_module as module_geo_boundaries_module_*
+
+# Add a prefix to all module rules, to avoid naming conflicts.
+use rule * from module_geo_boundaries as geo_boundaries_module_*
+
 
 # Request something from the module
 rule all:
-    message: "A generic test case for your module."
+    message:
+        "A generic test case for this module."
     default_target: True
     input:
-        "results/combined_text.md"
+        "results/module_geo_boundaries/results/shapes.parquet",

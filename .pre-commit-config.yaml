@@ -41,6 +41,7 @@ repos:
     rev: v2.4.1
     hooks:
     - id: codespell
+      files: .*\.(py|smk|md)$|^Snakefile$
 
 ci:  # https://pre-commit.ci/
   autoupdate_schedule: monthly

@@ -1,2 +1,21 @@
 # A minimal example of how to configure this module
-dummy_text: This is a user input.
+buffer: 500  # EPSG:3857 is in meters, so 0.5 km
+crs:
+  projected: "epsg:3857"
+  geographic: "epsg:4326"
+countries:
+  - country_id: "DNK"
+    subtype: "1"
+    source: "gadm"
+  - country_id: "GBR"
+    subtype: "country"
+    source: "overture"
+  - country_id: "NLD"
+    subtype: "2"
+    source: "gadm"
+  - country_id: "BEL"
+    subtype: "country"
+    source: "overture"
+  - country_id: "CHE"
+    subtype: "country"
+    source: "overture"
