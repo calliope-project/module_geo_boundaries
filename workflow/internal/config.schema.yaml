@@ -34,17 +34,37 @@ properties:
           pattern: "^[A-Z]{3}$"
         subtype:
           description: >
-            "Regional aggregation to gather (e.g., "0", "1" or "2" for GADM). Names vary per dataset."
+            "Regional aggregation to gather (e.g., '0', '1', or '2' for GADM). Names vary per dataset."
           type: string
         source:
           description: "Dataset to use as source."
           type: string
-          enum: ["overture", "gadm"]
+          enum: ["overture", "gadm", "nuts"]
+        resolution:
+          description: "Resolution for NUTS source (required if source is 'nuts')."
+          type: string
+        year:
+          description: "Year for NUTS source (required if source is 'nuts')."
+          type: integer
       required:
         - country_id
         - subtype
         - source
       additionalProperties: false
+      allOf:
+        - if:
+            properties:
+              source:
+                enum: ["nuts"]
+          then:
+            required:
+              - resolution
+              - year
+        - else:
+            not:
+              required:
+                - resolution
+                - year
     minItems: 1
     uniqueItems: true
 required:

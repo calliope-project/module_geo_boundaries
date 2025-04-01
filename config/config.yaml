@@ -19,3 +19,8 @@ countries:
   - country_id: "CHE"
     subtype: "country"
     source: "overture"
+  - country_id: "ESP"
+    subtype: "2"
+    source: "nuts"
+    resolution: 20M
+    year: 2003

@@ -28,9 +28,24 @@ rule download_country_gadm:
     output:
         path=temp("resources/automatic/countries/raw_gadm_{country}_{subtype}.parquet"),
     log:
-        "logs/donwload_country_gadm_{country}_{subtype}.log",
+        "logs/download_country_gadm_{country}_{subtype}.log",
     wrapper:
         "v5.9.0/geo/pygadm/item"
+
+
+rule download_nuts:
+    message:
+        "Download '{wildcards.resolution}_{wildcards.year}_{wildcards.level}' from NUTS."
+    params:
+        epsg = internal["nuts"]["epsg"]
+    output:
+        path="resources/automatic/nuts/nuts_{resolution}_{year}_{level}.parquet"
+    log:
+        "logs/download_nuts_{resolution}_{year}_{level}.log"
+    conda:
+        "../envs/shape.yaml"
+    script:
+        "../scripts/download_nuts.py"
 
 
 rule standardise_country_gadm:
