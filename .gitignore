@@ -22,6 +22,8 @@ gurobi.log
 temp/
 tmp/
 
-# Show mutable folders, but do not commit resulting files
-resources/
-results/
+# Ignore mutable folders
+**/logs/*
+**/notebooks/*
+**/resources/*
+**/results/*
