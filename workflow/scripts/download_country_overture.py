@@ -1,5 +1,6 @@
 """Download division area data from the Overture Maps foundation."""
 
+import sys
 from typing import TYPE_CHECKING, Any
 
 import duckdb
@@ -7,7 +8,7 @@ import pycountry
 
 if TYPE_CHECKING:
     snakemake: Any
-
+sys.stderr = open(snakemake.log[0], "w")
 OVERTURE_LINK = (
     "s3://overturemaps-us-west-2/release/{version}/theme=divisions/type=division_area/*"
 )

@@ -1,12 +1,13 @@
 """Transform a GADM country dataset into a cross-compatible shape."""
 
+import sys
 from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
 
 if TYPE_CHECKING:
     snakemake: Any
-
+sys.stderr = open(snakemake.log[0], "w")
 
 def standardise_country_gadm(
     input_path: str, country_id: str, subtype: str, output_path: str

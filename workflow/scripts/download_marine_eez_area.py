@@ -3,6 +3,7 @@
 https://www.marineregions.org/
 """
 
+import sys
 from pathlib import Path
 from shutil import unpack_archive
 from tempfile import TemporaryDirectory
@@ -14,6 +15,7 @@ from _schema import GeoDataFrame, ShapeSchema
 
 if TYPE_CHECKING:
     snakemake: Any
+sys.stderr = open(snakemake.log[0], "w")
 
 MARINE_URL = "https://www.marineregions.org/download_file.php"
 FILE = "World_EEZ_v12_20231025_gpkg"

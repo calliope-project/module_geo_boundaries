@@ -11,6 +11,8 @@ rule download_country_overture:
         version=internal["resources"]["overture_release"],
     output:
         path="resources/automatic/countries/overture_{country}_{subtype}.parquet",
+    log:
+        "logs/download_country_overture_{country}_{subtype}.log",
     conda:
         "../envs/shape.yaml"
     script:
@@ -25,6 +27,8 @@ rule download_country_gadm:
         content_level=lambda wc: int(wc.subtype),
     output:
         path=temp("resources/automatic/countries/raw_gadm_{country}_{subtype}.parquet"),
+    log:
+        "logs/donwload_country_gadm_{country}_{subtype}.log"
     wrapper:
         "v5.9.0/geo/pygadm/item"
 
@@ -39,6 +43,8 @@ rule standardise_country_gadm:
         raw="resources/automatic/countries/raw_gadm_{country}_{subtype}.parquet",
     output:
         standardised="resources/automatic/countries/gadm_{country}_{subtype}.parquet",
+    log:
+        "logs/standardise_country_gadm_{country}_{subtype}.log",
     conda:
         "../envs/shape.yaml"
     script:
@@ -50,6 +56,8 @@ rule download_marine_eez_area:
         "Download global exclusive economic zone (eez) polygons."
     output:
         path="resources/automatic/marineregions/eez.parquet",
+    log:
+        "logs/download_marine_eez_area.log",
     conda:
         "../envs/shape.yaml"
     script:
