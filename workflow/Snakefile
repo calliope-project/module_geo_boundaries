@@ -6,7 +6,7 @@ min_version("8.10")
 
 
 # Load the example configuration. This will be overridden by users.
-configfile: workflow.source_path("../config/example.yaml")
+configfile: workflow.source_path("../config/config.yaml")
 
 
 # Validate the configuration using the schema file.
