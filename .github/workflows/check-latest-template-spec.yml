@@ -1,12 +1,9 @@
-# Check for changes in the upstream template. If changes are found, a PR is opened.
-
+# Check for changes in the upstream template. If changes are found, an issue is opened.
+name: Template check.
 on:
   schedule:
-    - cron: '0 0 * * 1'  # Runs at 00:00 UTC every Monday
+    - cron: '0 * * * *'  # Runs at the start of every hour
 
 jobs:
   copier-update:
-    permissions:
-      contents: write
-      pull-requests: write
-    uses: calliope-project/clio/.github/workflows/update-copier-template.yml@feature-copier-template-update-action
+    uses: calliope-project/data-module-template/.github/workflows/template-check-version.yml@latest

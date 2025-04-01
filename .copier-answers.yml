@@ -1,6 +1,6 @@
 # Changes here will be overwritten by Copier
 # DO NOT MANUALLY MODIFY THIS FILE
-_commit: v0.1.0
+_commit: v0.1.2
 _src_path: https://github.com/calliope-project/data-module-template.git
 author_email: i.ruizmanuel@tudelft.nl
 author_family_name: Ruiz Manuel
@@ -11,4 +11,3 @@ module_description: A module to create arbitrary regional boundary datasets for 
     systems modelling
 module_long_name: clio - Geo-boundaries module
 module_short_name: module_geo_boundaries
-readthedocs: false

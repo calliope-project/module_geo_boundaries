@@ -40,8 +40,8 @@ repos:
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
-    - id: codespell
-      files: .*\.(py|smk|md)$|^Snakefile$
+      - id: codespell
+        files: .*\.(py|smk|md)$|^Snakefile$
 
 ci:  # https://pre-commit.ci/
   autoupdate_schedule: monthly
