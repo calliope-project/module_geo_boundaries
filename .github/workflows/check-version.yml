@@ -1,0 +1,9 @@
+# Check for changes in the upstream template. If changes are found, a comment is added to the PR.
+name: Template check.
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Runs at 00:00 UTC every Monday
+
+jobs:
+  copier-update:
+    uses: calliope-project/data-module-template/.github/workflows/template-check-version.yml@latest

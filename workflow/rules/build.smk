@@ -15,6 +15,8 @@ rule build_combined_area:
         marine="resources/automatic/marineregions/eez.parquet",
     output:
         combined="results/shapes.parquet",
+    log:
+        "logs/build_combined_area.log",
     conda:
         "../envs/shape.yaml"
     script:

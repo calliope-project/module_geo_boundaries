@@ -1,5 +1,6 @@
 """Combine country shapes and marine regions into one harmonized dataset."""
 
+import sys
 from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
@@ -9,6 +10,7 @@ from pyproj import CRS
 
 if TYPE_CHECKING:
     snakemake: Any
+sys.stderr = open(snakemake.log[0], "w")
 
 
 def _remove_overlaps(

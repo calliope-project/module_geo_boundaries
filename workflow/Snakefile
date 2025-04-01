@@ -6,7 +6,7 @@ min_version("8.10")
 
 
 # Load the example configuration. This will be overridden by users.
-configfile: workflow.source_path("../config/example.yaml")
+configfile: workflow.source_path("../config/config.yaml")
 
 
 # Validate the configuration using the schema file.
@@ -28,7 +28,9 @@ rule all:
     default_target: True
     output:
         "INVALID",
-    run:
-        raise ValueError(
-            "This workflow must be called as a snakemake module via the `module:` command."
-        )
+    log:
+        stderr="logs/all.stderr",
+    conda:
+        "envs/shell.yaml"
+    shell:
+        'echo "This workflow must be called as a snakemake module." > {log.stderr}'
