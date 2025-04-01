@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     snakemake: Any
 sys.stderr = open(snakemake.log[0], "w")
 
+
 def _remove_overlaps(
     gdf: gpd.GeoDataFrame, buffer: float, projected_crs: str
 ) -> gpd.GeoDataFrame:

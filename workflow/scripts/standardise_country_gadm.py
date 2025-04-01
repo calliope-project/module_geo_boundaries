@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     snakemake: Any
 sys.stderr = open(snakemake.log[0], "w")
 
+
 def standardise_country_gadm(
     input_path: str, country_id: str, subtype: str, output_path: str
 ):

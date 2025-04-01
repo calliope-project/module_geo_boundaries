@@ -28,7 +28,7 @@ rule download_country_gadm:
     output:
         path=temp("resources/automatic/countries/raw_gadm_{country}_{subtype}.parquet"),
     log:
-        "logs/donwload_country_gadm_{country}_{subtype}.log"
+        "logs/donwload_country_gadm_{country}_{subtype}.log",
     wrapper:
         "v5.9.0/geo/pygadm/item"
 
