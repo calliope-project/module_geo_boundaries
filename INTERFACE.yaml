@@ -1,11 +1,3 @@
 # Module Input-Output structure for automated doc. generation
-resources:
-  automatic:
-    "countries/{dataset}_{country}_{subtype}.parquet": "Geodata for country regions."
-    "marineregions/eez.parquet": "Geodata for marine exclusive economic zones."
 results:
   "shapes.parquet": "Harmonised geodata for all configured countries, including non-contested exclusive economic zones."
-wildcards:
-  dataset: main data where the data was fetched from (i.e., GADM).
-  country: ISO alpha-3 code.
-  subtype: regional configuration of the country (i.e., "region", "county" for Overture Maps). Varies per dataset.
