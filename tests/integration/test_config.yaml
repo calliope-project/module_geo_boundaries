@@ -4,6 +4,6 @@ module_geo_boundaries:
     projected: "epsg:3857"
     geographic: "epsg:4326"
   countries:
-    - country_id: "MNE"
+    "MNE":
       subtype: "0"
       source: "gadm"

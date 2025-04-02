@@ -1,0 +1,112 @@
+# A minimal example of how to configure this module
+buffer: 50  # meters
+crs:
+  projected: "epsg:3035"
+  geographic: "epsg:4326"
+countries:
+  "AUT":
+    subtype: "1"
+    source: "gadm"
+  "BEL":
+    subtype: "1"
+    source: "gadm"
+  "BGR":
+    subtype: "1"
+    source: "gadm"
+  "HRV":
+    subtype: "1"
+    source: "gadm"
+  "CYP":
+    subtype: "1"
+    source: "gadm"
+  "CZE":
+    subtype: "1"
+    source: "gadm"
+  "DNK":
+    subtype: "2"
+    source: "nuts"
+    resolution: 03M
+    year: 2024
+  "EST":
+    subtype: "1"
+    source: "gadm"
+  "FIN":
+    subtype: "1"
+    source: "gadm"
+  "FRA":
+    subtype: "1"
+    source: "gadm"
+  "DEU":
+    subtype: "1"
+    source: "gadm"
+  "GRC":
+    subtype: "1"
+    source: "gadm"
+  "HUN":
+    subtype: "1"
+    source: "gadm"
+  "IRL":
+    subtype: "region"
+    source: "overture"
+  "ITA":
+    subtype: "1"
+    source: "gadm"
+  "LVA":
+    subtype: "1"
+    source: "gadm"
+  "LTU":
+    subtype: "1"
+    source: "gadm"
+  "LUX":
+    subtype: "1"
+    source: "gadm"
+  "NLD":
+    subtype: "region"
+    source: "overture"
+  "POL":
+    subtype: "1"
+    source: "gadm"
+  "PRT":
+    subtype: "2"
+    source: "nuts"
+    resolution: 03M
+    year: 2024
+  "ROU":
+    subtype: "1"
+    source: "gadm"
+  "SVK":
+    subtype: "1"
+    source: "gadm"
+  "SVN":
+    subtype: "1"
+    source: "gadm"
+  "ESP":
+    subtype: "1"
+    source: "gadm"
+  "SWE":
+    subtype: "1"
+    source: "gadm"
+  "GBR":
+    subtype: "region"
+    source: "overture"
+  "ALB":
+    subtype: "1"
+    source: "gadm"
+  "BIH":
+    subtype: "1"
+    source: "gadm"
+  "MKD":
+    subtype: "1"
+    source: "gadm"
+  "MNE":
+    subtype: "1"
+    source: "gadm"
+  "NOR":
+    subtype: "1"
+    source: "gadm"
+  "SRB":
+    subtype: "1"
+    source: "gadm"
+  "CHE":
+    subtype: "1"
+    source: "gadm"

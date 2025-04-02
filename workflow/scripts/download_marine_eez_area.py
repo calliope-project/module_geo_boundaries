@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
 import requests
-from _schema import GeoDataFrame, ShapeSchema
+from _schema import shape_schema
 
 if TYPE_CHECKING:
     snakemake: Any
@@ -53,7 +53,7 @@ def transform_to_clio(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     # Remove cases without territorial ISO code
     standardised = standardised[~standardised["country_id"].isna()]
     # Check that the base columns fit the schema
-    standardised = GeoDataFrame[ShapeSchema](standardised)
+    standardised = shape_schema.validate(standardised)
     # Extra: identify contested areas and potential attribution conflicts
     standardised["contested"] = gdf["POL_TYPE"].apply(
         lambda x: True if x in ["Joint regime", "Overlapping claim"] else False

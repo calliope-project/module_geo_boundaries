@@ -1,28 +1,32 @@
 """General schema that the produced dataset should follow."""
 
-from pandera import DataFrameModel, Field
-from pandera.typing import Series
-from pandera.typing.geopandas import GeoDataFrame, GeoSeries  # noqa: F401
+from pandera import Check, Column, DataFrameSchema
 
-
-class ShapeSchema(DataFrameModel):
-    shape_id: Series[str] = Field(unique=True)
-    """A unique identifier for this shape."""
-    country_id: Series[str]
-    """Country ISO alpha-3 code."""
-    shape_class: Series[str] = Field(isin=["land", "maritime"])
-    """Identifier of the shape's context."""
-    geometry: GeoSeries
-    """Shape (multi)polygon."""
-    parent: Series[str] = Field(isin=["gadm", "overture", "marineregions"])
-    """Parent dataset."""
-    parent_subtype: Series[str]
-    """Region disaggregation level in the parent dataset."""
-    parent_id: Series[str]
-    """Unique id in the parent dataset."""
-    parent_name: Series[str]
-    """Human-readable name in the parent dataset."""
-
-    class Config:
-        coerce = True
-        strict = True
+shape_schema = DataFrameSchema(
+    {
+        "shape_id": Column(
+            str, unique=True, description="A unique identifier for this shape."
+        ),
+        "country_id": Column(str, description="Country ISO alpha-3 code."),
+        "shape_class": Column(
+            str,
+            checks=Check.isin(["land", "maritime"]),
+            description="Identifier of the shape's context.",
+        ),
+        "geometry": Column("geometry", description="Shape (multi)polygon."),
+        "parent": Column(
+            str,
+            checks=Check.isin(["gadm", "overture", "marineregions", "nuts"]),
+            description="Parent dataset.",
+        ),
+        "parent_subtype": Column(
+            str, description="Region disaggregation level in the parent dataset."
+        ),
+        "parent_id": Column(str, description="Unique id in the parent dataset."),
+        "parent_name": Column(
+            str, description="Human-readable name in the parent dataset."
+        ),
+    },
+    coerce=True,
+    strict=True,
+)

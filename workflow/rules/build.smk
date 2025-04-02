@@ -9,12 +9,17 @@ rule build_combined_area:
         crs=config["crs"],
     input:
         countries=[
-            f"resources/automatic/countries/{country['source']}_{country['country_id']}_{country['subtype']}.parquet"
-            for country in config["countries"]
+            f"resources/automatic/countries/{data['source']}_{country}_{data['subtype']}.parquet"
+            for country, data in config["countries"].items()
         ],
         marine="resources/automatic/marineregions/eez.parquet",
     output:
         combined="results/shapes.parquet",
+        plot=report(
+            "results/shapes.png",
+            caption="../report/results.rst",
+            category="Combined area",
+        ),
     log:
         "logs/build_combined_area.log",
     conda:

@@ -2,6 +2,8 @@
 
 A data module to create arbitrary regional boundaries for energy systems modelling.
 
+![Example of European shapes](./docs/europe_example.png)
+
 A modular `snakemake` workflow built for [`clio`](https://clio.readthedocs.io/) data modules.
 
 ## Steps
