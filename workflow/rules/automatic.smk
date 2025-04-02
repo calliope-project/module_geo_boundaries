@@ -55,11 +55,11 @@ rule download_nuts:
     message:
         "Download '{wildcards.resolution}_{wildcards.year}_{wildcards.level}' from NUTS."
     params:
-        epsg = internal["nuts"]["epsg"]
+        epsg=internal["nuts"]["epsg"],
     output:
-        path="resources/automatic/nuts/nuts_{resolution}_{year}_{level}.parquet"
+        path="resources/automatic/nuts/nuts_{resolution}_{year}_{level}.parquet",
     log:
-        "logs/download_nuts_{resolution}_{year}_{level}.log"
+        "logs/download_nuts_{resolution}_{year}_{level}.log",
     conda:
         "../envs/shape.yaml"
     script:
@@ -80,7 +80,7 @@ rule standardise_country_nuts:
     conda:
         "../envs/shape.yaml"
     script:
-         "../scripts/standardise_country_nuts.py"
+        "../scripts/standardise_country_nuts.py"
 
 
 rule download_marine_eez_area:

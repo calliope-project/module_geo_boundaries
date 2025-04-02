@@ -36,6 +36,7 @@ def test_config_example(module_path, tmp_path):
     )
     assert Path(tmp_path / result_file).exists()
 
+
 def test_europe_example(module_path, tmp_path):
     """Run a heavy workflow building shapes for European models."""
     copy_workflow(module_path, tmp_path)
