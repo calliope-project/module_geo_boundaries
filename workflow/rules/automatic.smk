@@ -33,6 +33,24 @@ rule download_country_gadm:
         "v5.9.0/geo/pygadm/item"
 
 
+rule standardise_country_gadm:
+    message:
+        "Standardise '{wildcards.country}_{wildcards.subtype}' GADM dataset."
+    params:
+        country_id=lambda wc: str(wc.country),
+        subtype=lambda wc: str(wc.subtype),
+    input:
+        raw="resources/automatic/countries/raw_gadm_{country}_{subtype}.parquet",
+    output:
+        standardised="resources/automatic/countries/gadm_{country}_{subtype}.parquet",
+    log:
+        "logs/standardise_country_gadm_{country}_{subtype}.log",
+    conda:
+        "../envs/shape.yaml"
+    script:
+        "../scripts/standardise_country_gadm.py"
+
+
 rule download_nuts:
     message:
         "Download '{wildcards.resolution}_{wildcards.year}_{wildcards.level}' from NUTS."
@@ -48,22 +66,21 @@ rule download_nuts:
         "../scripts/download_nuts.py"
 
 
-rule standardise_country_gadm:
+rule standardise_country_nuts:
     message:
-        "Standardise '{wildcards.country}_{wildcards.subtype}' dataset."
+        "Standardise '{wildcards.country}_{wildcards.subtype}' NUTS dataset."
     params:
-        country_id=lambda wc: str(wc.country),
-        subtype=lambda wc: str(wc.subtype),
+        year=lambda wc: config["countries"][wc.country]["year"],
     input:
-        raw="resources/automatic/countries/raw_gadm_{country}_{subtype}.parquet",
+        raw=lambda wc: f"resources/automatic/nuts/nuts_{config["countries"][wc.country]["resolution"]}_{config["countries"][wc.country]["year"]}_{wc.subtype}.parquet",
     output:
-        standardised="resources/automatic/countries/gadm_{country}_{subtype}.parquet",
+        path="resources/automatic/countries/nuts_{country}_{subtype}.parquet",
     log:
-        "logs/standardise_country_gadm_{country}_{subtype}.log",
+        "logs/standardise_country_nuts_{country}_{subtype}.log",
     conda:
         "../envs/shape.yaml"
     script:
-        "../scripts/standardise_country_gadm.py"
+         "../scripts/standardise_country_nuts.py"
 
 
 rule download_marine_eez_area:

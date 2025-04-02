@@ -14,7 +14,7 @@ class ShapeSchema(DataFrameModel):
     """Identifier of the shape's context."""
     geometry: GeoSeries
     """Shape (multi)polygon."""
-    parent: Series[str] = Field(isin=["gadm", "overture", "marineregions"])
+    parent: Series[str] = Field(isin=["gadm", "overture", "marineregions", "nuts"])
     """Parent dataset."""
     parent_subtype: Series[str]
     """Region disaggregation level in the parent dataset."""

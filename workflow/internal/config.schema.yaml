@@ -23,50 +23,48 @@ properties:
       - geographic
     additionalProperties: False
   countries:
-    description: List of countries to gather and combine.
-    type: array
-    items:
-      type: object
-      properties:
-        country_id:
-          description: "Country code in ISO alpha-3 format (e.g., MEX, CHN, DEU)."
-          type: string
-          pattern: "^[A-Z]{3}$"
-        subtype:
-          description: >
-            "Regional aggregation to gather (e.g., '0', '1', or '2' for GADM). Names vary per dataset."
-          type: string
-        source:
-          description: "Dataset to use as source."
-          type: string
-          enum: ["overture", "gadm", "nuts"]
-        resolution:
-          description: "Resolution for NUTS source (required if source is 'nuts')."
-          type: string
-        year:
-          description: "Year for NUTS source (required if source is 'nuts')."
-          type: integer
-      required:
-        - country_id
-        - subtype
-        - source
-      additionalProperties: false
-      allOf:
-        - if:
-            properties:
-              source:
-                enum: ["nuts"]
-          then:
-            required:
-              - resolution
-              - year
-        - else:
-            not:
+    description: >
+      Dictionary of countries with each country code as the key.
+      Country code must be in ISO alpha-3 format (e.g., MEX, CHN, DEU).
+    type: object
+    patternProperties:
+      "^[A-Z]{3}$":  # Keys must be exactly three uppercase letters
+        type: object
+        properties:
+          subtype:
+            description: >
+              "Regional aggregation to gather (e.g., '0', '1', or '2' for GADM). Names vary per dataset."
+            type: string
+          source:
+            description: "Dataset to use as source."
+            type: string
+            enum: ["overture", "gadm", "nuts"]
+          resolution:
+            description: "Resolution for NUTS source (required if source is 'nuts')."
+            type: string
+          year:
+            description: "Year for NUTS source (required if source is 'nuts')."
+            type: integer
+        required:
+          - subtype
+          - source
+        additionalProperties: false
+        allOf:
+          - if:
+              properties:
+                source:
+                  enum: ["nuts"]
+            then:
               required:
                 - resolution
                 - year
-    minItems: 1
-    uniqueItems: true
+          - else:
+              not:
+                required:
+                  - resolution
+                  - year
+    minProperties: 1
+    additionalProperties: false
 required:
   - countries
   - buffer

@@ -11,9 +11,7 @@ sys.stderr = open(snakemake.log[0], "w")
 URL = "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_{resolution}_{year}_{epsg}_LEVL_{level}.geojson"
 
 
-def download_nuts_version(
-    year: int, resolution: str, level: str, epsg: str, path: str
-):
+def download_nuts_version(year: int, resolution: str, level: str, epsg: str, path: str):
     """Download an aggregated NUTS datafile for the requested configuration."""
     gdf = gpd.read_file(
         URL.format(year=year, resolution=resolution, epsg=epsg, level=level)
@@ -27,5 +25,5 @@ if __name__ == "__main__":
         resolution=snakemake.wildcards.resolution,
         level=snakemake.wildcards.level,
         epsg=snakemake.params.epsg,
-        path=snakemake.output.path
+        path=snakemake.output.path,
     )

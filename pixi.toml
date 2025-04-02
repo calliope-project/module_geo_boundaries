@@ -22,6 +22,7 @@ ipykernel = ">=6.29.5"
 ipdb = ">=0.13.13"
 pycountry = ">=24.6.1"
 geopandas = ">=1.0.1"
+pyarrow = ">=19.0.1"
 
 [tasks]
-test = {cmd = "pytest tests/"}
+test = {cmd = "pytest tests/clio_test.py"}
