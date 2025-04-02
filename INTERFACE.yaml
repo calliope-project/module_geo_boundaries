@@ -1,3 +1,4 @@
 # Module Input-Output structure for automated doc. generation
 results:
   "shapes.parquet": "Harmonised geodata for all configured countries, including non-contested exclusive economic zones."
+  "shapes.png": "Figure depicting the resulting shapes."

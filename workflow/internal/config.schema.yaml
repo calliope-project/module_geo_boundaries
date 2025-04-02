@@ -4,8 +4,9 @@ type: object
 properties:
   buffer:
     description: >
-      Buffer boundary between shapes. Unit will be the one used by the projected CRS.
-      If zero, no buffer will be applied, which may lead to overlaps between shapes.
+      Size of the empty boundary between shapes, useful to avoid overlaps between shapes.
+      The unit will match that of the projected CRS (e.g., metre for epsg:3857).
+      If zero, no buffer will be applied, which might lead to ambiguous cases (e.g., a point belonging to two shapes)!
     type: integer
     minimum: 0
   crs:

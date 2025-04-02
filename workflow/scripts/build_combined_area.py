@@ -4,6 +4,7 @@ import sys
 from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
+import matplotlib.pyplot as plt
 import pandas as pd
 from _schema import shape_schema
 from pyproj import CRS
@@ -11,6 +12,16 @@ from pyproj import CRS
 if TYPE_CHECKING:
     snakemake: Any
 sys.stderr = open(snakemake.log[0], "w")
+
+
+def plot_combined_area(combined_file: str, path: str):
+    """Generate a nice figure of the resulting file."""
+    gdf = gpd.read_parquet(combined_file)
+    ax = gdf.plot(figsize=(10, 10), column="shape_class")
+    ax.set_xlabel("longitude")
+    ax.set_ylabel("latitude")
+    ax.set_title("Combined regions")
+    plt.savefig(path)
 
 
 def _remove_overlaps(
@@ -124,11 +135,13 @@ def build_combined_area(
 
 
 if __name__ == "__main__":
-    # build_combined_area()
     build_combined_area(
         country_files=snakemake.input.countries,
         marine_file=snakemake.input.marine,
         crs=snakemake.params.crs,
         buffer=snakemake.params.buffer,
         combined_file=snakemake.output.combined,
+    )
+    plot_combined_area(
+        combined_file=snakemake.output.combined, path=snakemake.output.plot
     )
