@@ -25,4 +25,4 @@ geopandas = ">=1.0.1"
 pyarrow = ">=19.0.1"
 
 [tasks]
-test = {cmd = "pytest tests/clio_test.py"}
+test-integration = {cmd = "pytest tests/clio_test.py"}
