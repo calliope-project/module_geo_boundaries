@@ -15,7 +15,11 @@ rule build_combined_area:
         marine="resources/automatic/marineregions/eez.parquet",
     output:
         combined="results/shapes.parquet",
-        plot=report("results/shapes.png", caption="../report/results.rst", category="Combined area"),
+        plot=report(
+            "results/shapes.png",
+            caption="../report/results.rst",
+            category="Combined area",
+        ),
     log:
         "logs/build_combined_area.log",
     conda:
