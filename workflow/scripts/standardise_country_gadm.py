@@ -4,7 +4,7 @@ import sys
 from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
-from _schema import GeoDataFrame, ShapeSchema
+from _schema import shape_schema
 
 if TYPE_CHECKING:
     snakemake: Any
@@ -35,7 +35,7 @@ def standardise_country_gadm(
             "parent_name": gdf[f"NAME_{subtype}"],
         }
     )
-    standardised = GeoDataFrame[ShapeSchema](standardised)
+    standardised = shape_schema.validate(standardised)
     standardised.to_parquet(output_path)
 
 

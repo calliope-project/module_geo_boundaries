@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
 import pycountry
-from _schema import GeoDataFrame, ShapeSchema
+from _schema import shape_schema
 
 if TYPE_CHECKING:
     snakemake: Any
@@ -57,7 +57,7 @@ def standardise_country_nuts(
             "parent_name": nuts_gdf["NUTS_NAME"],
         }
     )
-    standardised_gdf = GeoDataFrame[ShapeSchema](standardised_gdf)
+    standardised_gdf = shape_schema.validate(standardised_gdf)
     standardised_gdf.to_parquet(output_path)
 
 
