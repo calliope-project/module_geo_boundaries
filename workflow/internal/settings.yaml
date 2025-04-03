@@ -5,4 +5,4 @@ resources:
     dummy_readme: "https://raw.githubusercontent.com/calliope-project/clio/refs/heads/main/README.md"
   overture_release: "2025-01-22.0"
 nuts:
-  epsg: 4326  # will be converted later to the user-requested epsg
+  epsg: 3035  # will be converted later to the user-requested epsg

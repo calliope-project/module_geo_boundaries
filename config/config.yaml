@@ -1,17 +1,19 @@
 # A minimal example of how to configure this module
-buffer: 500  # EPSG:3857 is in meters
+buffer: 50  # EPSG:3857 is in meters
 crs:
   projected: "epsg:3857"
   geographic: "epsg:4326"
 countries:
   DNK:
     subtype: "1"
-    source: "gadm"
+    source: "nuts"
+    resolution: 01M
+    year: 2024
   GBR:
     subtype: "country"
     source: "overture"
   NLD:
-    subtype: "2"
+    subtype: "0"
     source: "gadm"
   BEL:
     subtype: "country"
@@ -22,5 +24,5 @@ countries:
   ESP:
     subtype: "2"
     source: "nuts"
-    resolution: 20M
-    year: 2003
+    resolution: 01M
+    year: 2024
