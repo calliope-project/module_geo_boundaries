@@ -16,6 +16,7 @@ def download_nuts_version(year: int, resolution: str, level: str, epsg: str, pat
     gdf = gpd.read_file(
         URL.format(year=year, resolution=resolution, epsg=epsg, level=level)
     )
+    assert gdf.crs.equals(epsg)
     gdf.to_parquet(path)
 
 
