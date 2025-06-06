@@ -41,7 +41,7 @@ rule standardise_country_gadm:
         subtype=lambda wc: str(wc.subtype),
     input:
         raw="resources/automatic/countries/raw_gadm_{country}_{subtype}.parquet",
-        schema=workflow.source_path("../internal/shape.schema.yaml")
+        schema=workflow.source_path("../internal/shape.schema.yaml"),
     output:
         standardised="resources/automatic/countries/gadm_{country}_{subtype}.parquet",
     log:
