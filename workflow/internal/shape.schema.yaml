@@ -1,0 +1,113 @@
+schema_type: dataframe
+version: 0.1.2
+columns:
+  shape_id:
+    title: null
+    description: A unique identifier for this shape.
+    dtype: str
+    nullable: false
+    checks: null
+    unique: true
+    coerce: false
+    required: true
+    regex: false
+  country_id:
+    title: null
+    description: Country ISO alpha-3 code.
+    dtype: str
+    nullable: false
+    checks: null
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  shape_class:
+    title: null
+    description: Identifier of the shape's context.
+    dtype: str
+    nullable: false
+    checks:
+      isin:
+        value:
+        - land
+        - maritime
+        options:
+          raise_warning: false
+          ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  geometry:
+    title: null
+    description: Shape (multi)polygon.
+    dtype: geometry
+    nullable: false
+    checks: null
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  parent:
+    title: null
+    description: Parent dataset.
+    dtype: str
+    nullable: false
+    checks:
+      isin:
+        value:
+        - gadm
+        - overture
+        - marineregions
+        - nuts
+        options:
+          raise_warning: false
+          ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  parent_subtype:
+    title: null
+    description: Region disaggregation level in the parent dataset.
+    dtype: str
+    nullable: false
+    checks: null
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  parent_id:
+    title: null
+    description: Unique id in the parent dataset.
+    dtype: str
+    nullable: false
+    checks: null
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  parent_name:
+    title: null
+    description: Human-readable name in the parent dataset.
+    dtype: str
+    nullable: false
+    checks: null
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+checks: null
+index: null
+dtype: null
+coerce: true
+strict: true
+name: null
+ordered: false
+unique: null
+report_duplicates: all
+unique_column_names: false
+add_missing_columns: false
+title: null
+description: null
+

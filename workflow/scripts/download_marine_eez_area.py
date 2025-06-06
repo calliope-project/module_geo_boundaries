@@ -10,12 +10,13 @@ from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
+import pandera.io as io
 import requests
-from _schema import shape_schema
 
 if TYPE_CHECKING:
     snakemake: Any
 sys.stderr = open(snakemake.log[0], "w")
+shape_schema = io.from_yaml(snakemake.input.schema)
 
 MARINE_URL = "https://www.marineregions.org/download_file.php"
 FILE = "World_EEZ_v12_20231025_gpkg"

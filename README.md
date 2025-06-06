@@ -8,7 +8,7 @@ A modular `snakemake` workflow built for [`clio`](https://clio.readthedocs.io/) 
 
 ## Steps
 
-1. Data is downloaded and harmonized using a common schema (see `workflow/scripts/_schema.py`).
+1. Data is downloaded and harmonized using a common schema (see `workflow/internal/shape.schema.yaml`).
     - Country area data: [GADM](https://gadm.org/), [Overture Maps](https://overturemaps.org/) and [NUTS](https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/territorial-units-statistics) divisions are supported as datasources.
     - [Marine regions](https://www.marineregions.org/) Exclusive Economic Zone (EEZ) data.
 2. Country area is clipped using the marine regions to accurately approximate their landmass.
