@@ -13,6 +13,7 @@ rule build_combined_area:
             for country, data in config["countries"].items()
         ],
         marine="resources/automatic/marineregions/eez.parquet",
+        schema=workflow.source_path("../internal/shape.schema.yaml"),
     output:
         combined="results/shapes.parquet",
         plot=report(
