@@ -6,12 +6,13 @@ from typing import TYPE_CHECKING, Any
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import pandas as pd
-from _schema import shape_schema
+import pandera.io as io
 from pyproj import CRS
 
 if TYPE_CHECKING:
     snakemake: Any
 sys.stderr = open(snakemake.log[0], "w")
+shape_schema = io.from_yaml(snakemake.input.schema)
 
 
 def plot_combined_area(combined_file: str, path: str):

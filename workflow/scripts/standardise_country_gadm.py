@@ -4,11 +4,13 @@ import sys
 from typing import TYPE_CHECKING, Any
 
 import geopandas as gpd
-from _schema import shape_schema
+import pandera.io as io
 
 if TYPE_CHECKING:
     snakemake: Any
 sys.stderr = open(snakemake.log[0], "w")
+
+shape_schema = io.from_yaml(snakemake.input.schema)
 
 
 def standardise_country_gadm(

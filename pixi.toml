@@ -23,6 +23,8 @@ ipdb = ">=0.13.13"
 pycountry = ">=24.6.1"
 geopandas = ">=1.0.1"
 pyarrow = ">=19.0.1"
+pandera-pandas = ">=0.24.0"
+pandera-io = ">=0.24.0"
 
 [tasks]
 test-integration = {cmd = "pytest tests/clio_test.py"}
