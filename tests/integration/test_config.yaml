@@ -7,3 +7,6 @@ module_geo_boundaries:
     "MNE":
       subtype: "0"
       source: "gadm"
+    "SVK":
+      subtype: "country"
+      source: "overture"
