@@ -11,3 +11,4 @@ dependencies:
   - pandera-io = 0.24
   - pyarrow = 19.0.1
   - pycountry = 24.6.1
+  - python = 3.13
