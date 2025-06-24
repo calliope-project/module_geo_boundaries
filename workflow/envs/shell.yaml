@@ -4,3 +4,4 @@ channels:
   - nodefaults
 dependencies:
   - curl=8.9.1
+  - python = 3.13
