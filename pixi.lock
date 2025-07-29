@@ -319,11 +319,12 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/smart_open-7.1.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/smmap-5.0.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/bioconda/noarch/snakefmt-0.10.2-pyhdfd78af_0.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-common-1.17.4-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-common-1.21.0-pyhdfd78af_0.tar.bz2
       - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-executor-plugins-9.3.3-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-logger-plugins-1.2.4-pyhdfd78af_0.tar.bz2
       - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-report-plugins-1.1.0-pyhdfd78af_0.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-storage-plugins-3.4.0-pyhdfd78af_0.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-minimal-8.30.0-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-storage-plugins-4.2.1-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-minimal-9.8.2-pyhdfd78af_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/snappy-1.2.1-h8bd8927_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/spdlog-1.15.1-hb29a8c4_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/sqlite-3.49.1-h9eae976_1.conda
@@ -682,11 +683,12 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/smart_open-7.1.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/smmap-5.0.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/bioconda/noarch/snakefmt-0.10.2-pyhdfd78af_0.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-common-1.17.4-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-common-1.21.0-pyhdfd78af_0.tar.bz2
       - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-executor-plugins-9.3.3-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-logger-plugins-1.2.4-pyhdfd78af_0.tar.bz2
       - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-report-plugins-1.1.0-pyhdfd78af_0.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-storage-plugins-3.4.0-pyhdfd78af_0.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-minimal-8.30.0-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-storage-plugins-4.2.1-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-minimal-9.8.2-pyhdfd78af_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/snappy-1.2.1-h98b9ce2_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/spdlog-1.15.1-hed1c2b2_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/sqlite-3.49.1-hd7222ec_1.conda
@@ -1002,11 +1004,12 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/smart_open-7.1.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/smmap-5.0.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/bioconda/noarch/snakefmt-0.10.2-pyhdfd78af_0.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-common-1.17.4-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-common-1.21.0-pyhdfd78af_0.tar.bz2
       - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-executor-plugins-9.3.3-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-logger-plugins-1.2.4-pyhdfd78af_0.tar.bz2
       - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-report-plugins-1.1.0-pyhdfd78af_0.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-storage-plugins-3.4.0-pyhdfd78af_0.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-minimal-8.30.0-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-storage-plugins-4.2.1-pyhdfd78af_0.tar.bz2
+      - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-minimal-9.8.2-pyhdfd78af_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/win-64/snappy-1.2.1-h500f7fa_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/spdlog-1.15.1-hf4138ee_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/sqlite-3.49.1-h2466b09_1.conda
@@ -9808,17 +9811,18 @@ packages:
   license_family: MIT
   size: 32110
   timestamp: 1715145696865
-- conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-common-1.17.4-pyhdfd78af_0.tar.bz2
-  sha256: 3604b0d42ff12bc8bee860b5eeded78b2799eb34aec684b9d3f4f068a5304a66
-  md5: 4a72a6f5efb323aa2953e3dde0589ff6
+- conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-common-1.21.0-pyhdfd78af_0.tar.bz2
+  sha256: 420c747fc584db414dfdd64cc58f517a317a5099f1d8aee81d08a0bfea00086f
+  md5: be64eefefbf28dee862732abf28b530d
   depends:
-  - argparse-dataclass >=2.0.0,<3.0.0
-  - configargparse >=1.7,<2.0
-  - python >=3.8.0,<4.0.0
+  - argparse-dataclass >=2.0.0
+  - configargparse >=1.7
+  - packaging >=24.0,<26.0
+  - python >=3.8
   license: MIT
   license_family: MIT
-  size: 18489
-  timestamp: 1728055352534
+  size: 20396
+  timestamp: 1753346658467
 - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-executor-plugins-9.3.3-pyhdfd78af_0.tar.bz2
   sha256: ae4bde07839846b865c72a49e52ed8750b9ff5db08e7f9df7fd0d04ed4a4b5bf
   md5: f0460b5cf6dc3d8ae202cc35a96186b0
@@ -9831,6 +9835,15 @@ packages:
   license_family: MIT
   size: 22863
   timestamp: 1734791239397
+- conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-logger-plugins-1.2.4-pyhdfd78af_0.tar.bz2
+  sha256: e582e4e11ced71185992240b07e8bc55aee667c55bc9107529183cebb167476e
+  md5: cbb15afc697a71cc9a0e9bfd75ae59cc
+  depends:
+  - python >=3.11.0,<4.0.0
+  - snakemake-interface-common >=1.17.4,<2.0.0
+  license: MIT
+  size: 16076
+  timestamp: 1753366768027
 - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-report-plugins-1.1.0-pyhdfd78af_0.tar.bz2
   sha256: 1d110a5c54b9f46824bb03f80c09cdc5045d6c27c0166662d5f4e8a7c07d3535
   md5: 3a7dd19cd530b27b59aed6cb606a7987
@@ -9840,9 +9853,9 @@ packages:
   license: MIT
   size: 13269
   timestamp: 1728055589409
-- conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-storage-plugins-3.4.0-pyhdfd78af_0.tar.bz2
-  sha256: 94a8ff0fd2d69d78b20155e1218aa4d3fb9b46c1b7dbefadc27cd844c2a4ef02
-  md5: 17abd71eef0e933cfd7a804cbd7c8760
+- conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-storage-plugins-4.2.1-pyhdfd78af_0.tar.bz2
+  sha256: 759127ee57236f6cfff795c497d56fd758a0aaae9cf54b6e6a100bb600816695
+  md5: de5d573c67176a5b1756987f9a8a595e
   depends:
   - python >=3.11.0,<4.0.0
   - reretry >=0.11.8,<0.12.0
@@ -9851,11 +9864,11 @@ packages:
   - wrapt >=1.15.0,<2.0.0
   license: MIT
   license_family: MIT
-  size: 18756
-  timestamp: 1741779924248
-- conda: https://conda.anaconda.org/bioconda/noarch/snakemake-minimal-8.30.0-pyhdfd78af_0.tar.bz2
-  sha256: 1ef032e56463e2fa1be4c811afa2065304ebd5b7986b408ae383b40777700586
-  md5: 90b8c755ba85874d2d04347befb40549
+  size: 19926
+  timestamp: 1742480267140
+- conda: https://conda.anaconda.org/bioconda/noarch/snakemake-minimal-9.8.2-pyhdfd78af_0.tar.bz2
+  sha256: ad6ea8f69a7b1d2fad6e42f508ea1d45232403f1e8807c2736711d1109a23717
+  md5: 896038ac259c1dc46cab1bc17d30df02
   depends:
   - appdirs
   - conda-inject >=1.3.1,<2.0
@@ -9869,26 +9882,27 @@ packages:
   - jinja2 >=3.0,<4.0
   - jsonschema
   - nbformat
-  - packaging
+  - packaging >=24.0,<26.0
   - psutil
-  - pulp >=2.3.1,<2.10
+  - pulp >=2.3.1,<3.1
   - python >=3.11,<3.13
   - pyyaml
   - requests >=2.8.1,<3.0
   - reretry
   - smart_open >=4.0,<8.0
-  - snakemake-interface-common >=1.17.0,<2.0
-  - snakemake-interface-executor-plugins >=9.3.2,<10.0.0
+  - snakemake-interface-common >=1.20.1,<2.0
+  - snakemake-interface-executor-plugins >=9.3.2,<10.0
+  - snakemake-interface-logger-plugins >=1.1.0,<2.0.0
   - snakemake-interface-report-plugins >=1.1.0,<2.0.0
-  - snakemake-interface-storage-plugins >=3.2.3,<4.0
+  - snakemake-interface-storage-plugins >=4.1.0,<5.0
   - tabulate
   - throttler
   - wrapt
   - yte >=1.5.5,<2.0
   license: MIT
   license_family: MIT
-  size: 850022
-  timestamp: 1741699097629
+  size: 868641
+  timestamp: 1753464326427
 - conda: https://conda.anaconda.org/conda-forge/linux-64/snappy-1.2.1-h8bd8927_1.conda
   sha256: ec91e86eeb2c6bbf09d51351b851e945185d70661d2ada67204c9a6419d282d3
   md5: 3b3e64af585eadfb52bb90b553db5edf

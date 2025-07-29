@@ -1,0 +1,10 @@
+# Example of regional disaggregation of a large country
+# China has contested borders, which will be removed by the module
+buffer: 1  # meters
+crs:
+  projected: "epsg:3035"
+  geographic: "epsg:4326"
+countries:
+  "CHN":
+    subtype: "region"
+    source: "overture"
