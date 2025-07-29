@@ -3,14 +3,12 @@
 import sys
 from typing import TYPE_CHECKING, Any
 
+import _schemas
 import geopandas as gpd
-import pandera.io as io
 
 if TYPE_CHECKING:
     snakemake: Any
 sys.stderr = open(snakemake.log[0], "w")
-
-shape_schema = io.from_yaml(snakemake.input.schema)
 
 
 def standardise_country_gadm(
@@ -37,7 +35,7 @@ def standardise_country_gadm(
             "parent_name": gdf[f"NAME_{subtype}"],
         }
     )
-    standardised = shape_schema.validate(standardised)
+    standardised = _schemas.ShapesSchema.validate(standardised)
     standardised.to_parquet(output_path)
 
 

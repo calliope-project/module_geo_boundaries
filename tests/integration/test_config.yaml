@@ -7,3 +7,11 @@ module_geo_boundaries:
     "MNE":
       subtype: "0"
       source: "gadm"
+    "SVK":
+      subtype: "country"
+      source: "overture"
+    "MKD":
+      subtype: "0"
+      source: "nuts"
+      resolution: 03M
+      year: 2024

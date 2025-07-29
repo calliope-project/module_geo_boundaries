@@ -1,4 +1,4 @@
-# Check for changes in the upstream template. If changes are found, a comment is added to the PR.
+# Check for changes in the upstream template. If changes are found, an issue is created
 name: Template check.
 on:
   schedule:

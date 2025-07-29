@@ -2,19 +2,15 @@
 
 IMPORTANT: it's recommended to avoid running all tests at the same time!
 You'll likely run out of memory.
+
+Instead, run a relevant case:
+pytest tests/local_test.py::test_config_example["europe_example"]
 """
 
-import shutil
 import subprocess
 from pathlib import Path
 
 import pytest
-
-
-def copy_workflow(workflow_path, dest_path):
-    """Copy workflow-relevant folders to a temporary location."""
-    for folder in ["workflow", "config"]:
-        shutil.copytree(workflow_path / folder, dest_path / folder)
 
 
 @pytest.fixture(scope="module")
@@ -23,29 +19,23 @@ def module_path():
     return Path(__file__).parent.parent
 
 
-def test_config_example(module_path, tmp_path):
-    """The example file should result in a successful run."""
-    copy_workflow(module_path, tmp_path)
+@pytest.mark.parametrize("scenario", ["config", "china_example", "europe_example"])
+def test_config_example(module_path, scenario):
+    """Example files should result in a successful run."""
     result_file = "results/shapes.parquet"
-    config_file = Path(tmp_path / "config/config.yaml")
+    config_file = Path(module_path / f"config/{scenario}.yaml")
+    smk_command = f"snakemake --cores 4 --replace-workflow-config --configfile={config_file} {result_file}"
+    subprocess.run(smk_command + " --forceall", shell=True, check=True, cwd=module_path)
     subprocess.run(
-        f"snakemake --cores 3 --configfile={config_file} {result_file}",
+        smk_command + " --report results/report.html",
         shell=True,
         check=True,
-        cwd=tmp_path,
+        cwd=module_path,
     )
-    assert Path(tmp_path / result_file).exists()
-
-
-def test_europe_example(module_path, tmp_path):
-    """Run a heavy workflow building shapes for European models."""
-    copy_workflow(module_path, tmp_path)
-    result_file = "results/shapes.parquet"
-    config_file = Path(tmp_path / "config/europe_example.yaml")
     subprocess.run(
-        f"snakemake --cores 3 --configfile={config_file} {result_file}",
+        smk_command + " --rulegraph | dot -Tpng > results/rulegraph.png",
         shell=True,
         check=True,
-        cwd=tmp_path,
+        cwd=module_path,
     )
-    assert Path(tmp_path / result_file).exists()
+    assert Path(module_path / result_file).exists()

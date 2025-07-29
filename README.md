@@ -8,7 +8,7 @@ A modular `snakemake` workflow built for [`clio`](https://clio.readthedocs.io/) 
 
 ## Steps
 
-1. Data is downloaded and harmonized using a common schema (see `workflow/internal/shape.schema.yaml`).
+1. Data is downloaded and harmonized using a common schema.
     - Country area data: [GADM](https://gadm.org/), [Overture Maps](https://overturemaps.org/) and [NUTS](https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/territorial-units-statistics) divisions are supported as datasources.
     - [Marine regions](https://www.marineregions.org/) Exclusive Economic Zone (EEZ) data.
 2. Country area is clipped using the marine regions to accurately approximate their landmass.
@@ -22,7 +22,7 @@ Please consult the integration example in `tests/integration/Snakefile` for more
 
 ## Development
 
-We use [`pixi`](https://pixi.sh/) for as our package manager for development.
+We use [`pixi`](https://pixi.sh/) as our package manager for development.
 Once installed, run the following to clone this repo and install all dependencies.
 
 ```shell
@@ -34,7 +34,13 @@ pixi install --all
 For testing, simply run:
 
 ```shell
-pixi run test
+pixi run test-integration
+```
+
+To view the documentation locally, use:
+
+```shell
+pixi run serve-docs
 ```
 
 To test a minimal example of a workflow using this module:
@@ -42,5 +48,5 @@ To test a minimal example of a workflow using this module:
 ```shell
 pixi shell    # activate this project's environment
 cd tests/integration/  # navigate to the integration example
-snakemake --use-conda  # run the workflow!
+snakemake --use-conda --cores 2  # run the workflow!
 ```
