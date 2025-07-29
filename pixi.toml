@@ -1,8 +1,7 @@
 [project]
 name = "module_geo_boundaries"
-version = "0.1.0"
 authors = ["See AUTHORS file"]
-description = "A data module to create arbitrary regional boundaries for energy systems modelling."
+description = "A module to create arbitrary regional boundary datasets for energy systems modelling"
 license = "Apache-2.0"
 readme = "README.md"
 channels = ["conda-forge", "bioconda"]
@@ -10,21 +9,17 @@ platforms = ["win-64", "linux-64", "osx-arm64"]
 homepage = "https://clio.readthedocs.io/"
 
 [dependencies]
-python = ">=3.12"
+clio-tools = ">=2025.03.03"
+conda = ">=25.0.0"
+ipdb = ">=0.13.13"
+ipykernel = ">=6.29.5"
+jsonschema = ">=4.0.0"
 mypy = ">=1.15.0"
 pytest = ">=8.3.5"
+python = ">=3.12"
 ruff = ">=0.9.9"
 snakefmt = ">=0.10.2"
-conda = ">=25.0.0"
 snakemake-minimal = ">=8.29.0"
-clio-tools = ">=2025.03.03"
-ipykernel = ">=6.29.5"
-ipdb = ">=0.13.13"
-pycountry = ">=24.6.1"
-geopandas = ">=1.0.1"
-pyarrow = ">=19.0.1"
-pandera-pandas = ">=0.24.0"
-pandera-io = ">=0.24.0"
 
 [tasks]
 test-integration = {cmd = "pytest tests/clio_test.py"}

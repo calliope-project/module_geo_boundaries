@@ -11,6 +11,9 @@
 __pycache__
 *.pyc
 
+### Environments
+.pixi/
+
 ### Snakemake
 .snakemake/
 gurobi.log
@@ -18,12 +21,9 @@ gurobi.log
 ### Notebooks
 .ipynb_checkpoints
 
-# testing folders
-temp/
-tmp/
-
 # Ignore mutable folders
 **/logs/*
-**/notebooks/*
 **/resources/*
 **/results/*
+**/temp/*
+**/tmp/*
