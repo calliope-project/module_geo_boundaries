@@ -131,7 +131,7 @@ def build_combined_area(
 
     combined = combined.to_crs(crs["geographic"])
     combined = _schemas.ShapesSchema.validate(combined)
-    combined.to_parquet(combined_file)
+    combined.reset_index(drop=True).to_parquet(combined_file)
 
 
 if __name__ == "__main__":

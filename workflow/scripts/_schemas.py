@@ -23,6 +23,15 @@ class ShapesSchema(pa.DataFrameModel):
     parent_name: Series[str]
     "Human-readable name in the parent dataset."
 
+    @pa.dataframe_parser
+    def drop_empty_geometries(cls, df):
+        mask = df["geometry"].apply(lambda g: (g is not None) and (not g.is_empty))
+        return df.loc[mask]
+
+    @pa.check("geometry", element_wise=True)
+    def check_valid_geometries(cls, geom):
+        return (geom is not None) and (not geom.is_empty) and geom.is_valid
+
     class Config:
         # top-level schema options from your YAML
         coerce = True
