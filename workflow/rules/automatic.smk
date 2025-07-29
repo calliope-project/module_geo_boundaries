@@ -41,7 +41,6 @@ rule standardise_country_gadm:
         subtype=lambda wc: str(wc.subtype),
     input:
         raw="resources/automatic/countries/raw_gadm_{country}_{subtype}.parquet",
-        schema=workflow.source_path("../internal/shape.schema.yaml"),
     output:
         standardised="resources/automatic/countries/gadm_{country}_{subtype}.parquet",
     log:
@@ -74,7 +73,6 @@ rule standardise_country_nuts:
         year=lambda wc: config["countries"][wc.country]["year"],
     input:
         raw=lambda wc: f"resources/automatic/nuts/nuts_{config["countries"][wc.country]["resolution"]}_{config["countries"][wc.country]["year"]}_{wc.subtype}.parquet",
-        schema=workflow.source_path("../internal/shape.schema.yaml"),
     output:
         path="resources/automatic/countries/nuts_{country}_{subtype}.parquet",
     log:
@@ -88,8 +86,6 @@ rule standardise_country_nuts:
 rule download_marine_eez_area:
     message:
         "Download global exclusive economic zone (eez) polygons."
-    input:
-        schema=workflow.source_path("../internal/shape.schema.yaml"),
     output:
         path="resources/automatic/marineregions/eez.parquet",
     log:

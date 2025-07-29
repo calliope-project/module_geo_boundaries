@@ -9,14 +9,13 @@ from shutil import unpack_archive
 from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, Any
 
+import _schemas
 import geopandas as gpd
-import pandera.io as io
 import requests
 
 if TYPE_CHECKING:
     snakemake: Any
 sys.stderr = open(snakemake.log[0], "w")
-shape_schema = io.from_yaml(snakemake.input.schema)
 
 MARINE_URL = "https://www.marineregions.org/download_file.php"
 FILE = "World_EEZ_v12_20231025_gpkg"
@@ -54,7 +53,7 @@ def transform_to_clio(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     # Remove cases without territorial ISO code
     standardised = standardised[~standardised["country_id"].isna()]
     # Check that the base columns fit the schema
-    standardised = shape_schema.validate(standardised)
+    standardised = _schemas.ShapesSchema.validate(standardised)
     # Extra: identify contested areas and potential attribution conflicts
     standardised["contested"] = gdf["POL_TYPE"].apply(
         lambda x: True if x in ["Joint regime", "Overlapping claim"] else False

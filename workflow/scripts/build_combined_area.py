@@ -3,16 +3,15 @@
 import sys
 from typing import TYPE_CHECKING, Any
 
+import _schemas
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import pandas as pd
-import pandera.io as io
 from pyproj import CRS
 
 if TYPE_CHECKING:
     snakemake: Any
 sys.stderr = open(snakemake.log[0], "w")
-shape_schema = io.from_yaml(snakemake.input.schema)
 
 
 def plot_combined_area(combined_file: str, path: str):
@@ -81,7 +80,7 @@ def _combine_shapes(
         gpd.GeoDataFrame: Combined dataframe using the given CRS.
     """
     assert CRS(geographic_crs).is_geographic
-    combined = gpd.GeoDataFrame(columns=shape_schema.columns)
+    combined = gpd.GeoDataFrame(columns=_schemas.ShapesSchema.to_schema().columns)
     combined = combined.set_crs(geographic_crs)
 
     marine = gpd.read_parquet(marine_file)
@@ -131,7 +130,7 @@ def build_combined_area(
         combined = _remove_overlaps(combined, buffer, crs["projected"])
 
     combined = combined.to_crs(crs["geographic"])
-    combined = shape_schema.validate(combined)
+    combined = _schemas.ShapesSchema.validate(combined)
     combined.to_parquet(combined_file)
 
 

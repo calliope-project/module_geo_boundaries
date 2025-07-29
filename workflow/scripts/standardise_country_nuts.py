@@ -3,14 +3,13 @@
 import sys
 from typing import TYPE_CHECKING, Any
 
+import _schemas
 import geopandas as gpd
-import pandera.io as io
 import pycountry
 
 if TYPE_CHECKING:
     snakemake: Any
 sys.stderr = open(snakemake.log[0], "w")
-shape_schema = io.from_yaml(snakemake.input.schema)
 
 UNIQUE_ISO3_TO_NUTS = {
     "GRC": "EL",  # Greece
@@ -43,7 +42,6 @@ def standardise_country_nuts(
 
     nuts_gdf = gpd.read_parquet(raw_file)
     nuts_gdf = nuts_gdf[nuts_gdf["CNTR_CODE"] == nuts_id]
-
     standardised_gdf = gpd.GeoDataFrame(
         {
             "shape_id": nuts_gdf["NUTS_ID"].apply(
@@ -53,12 +51,12 @@ def standardise_country_nuts(
             "shape_class": "land",
             "geometry": nuts_gdf["geometry"],
             "parent": "nuts",
-            "parent_subtype": str(nuts_gdf["LEVL_CODE"]),
+            "parent_subtype": nuts_gdf["LEVL_CODE"].astype(str),
             "parent_id": nuts_gdf["NUTS_ID"],
             "parent_name": nuts_gdf["NUTS_NAME"],
         }
     )
-    standardised_gdf = shape_schema.validate(standardised_gdf)
+    standardised_gdf = _schemas.ShapesSchema.validate(standardised_gdf)
     standardised_gdf.to_parquet(output_path)
 
 

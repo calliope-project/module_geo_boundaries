@@ -20,6 +20,8 @@ python = ">=3.12"
 ruff = ">=0.9.9"
 snakefmt = ">=0.10.2"
 snakemake-minimal = ">=8.29.0"
+geopandas = ">=1.1.1"
+pyarrow = ">=21.0.0"
 
 [tasks]
 test-integration = {cmd = "pytest tests/clio_test.py"}
