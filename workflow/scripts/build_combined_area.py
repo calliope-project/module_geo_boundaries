@@ -126,8 +126,7 @@ def build_combined_area(
 ):
     """Create a single file with the requested geographical scope."""
     combined = _combine_shapes(country_files, marine_file, crs["geographic"])
-    if buffer > 0:
-        combined = _remove_overlaps(combined, buffer, crs["projected"])
+    combined = _remove_overlaps(combined, buffer, crs["projected"])
 
     combined = combined.to_crs(crs["geographic"])
     combined = _schemas.ShapesSchema.validate(combined)

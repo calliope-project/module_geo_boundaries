@@ -1,6 +1,7 @@
 import pandera.pandas as pa
 from pandera.typing.geopandas import GeoSeries
 from pandera.typing.pandas import Series
+from shapely.validation import make_valid
 
 
 class ShapesSchema(pa.DataFrameModel):
@@ -24,12 +25,17 @@ class ShapesSchema(pa.DataFrameModel):
     "Human-readable name in the parent dataset."
 
     @pa.dataframe_parser
-    def drop_empty_geometries(cls, df):
+    def fix_geometries(cls, df):
+        """Attempt to correct empty or malformed geometries."""
         mask = df["geometry"].apply(lambda g: (g is not None) and (not g.is_empty))
-        return df.loc[mask]
+        df = df.loc[mask]
+        df["geometry"] = df["geometry"].apply(
+            lambda g: g if g.is_valid else make_valid(g)
+        )
+        return df
 
     @pa.check("geometry", element_wise=True)
-    def check_valid_geometries(cls, geom):
+    def check_geometries(cls, geom):
         return (geom is not None) and (not geom.is_empty) and geom.is_valid
 
     class Config:
