@@ -24,9 +24,7 @@ def plot_combined_area(combined_file: str, path: str):
     plt.savefig(path)
 
 
-def _remove_overlaps(
-    gdf: gpd.GeoDataFrame, projected_crs: str
-) -> gpd.GeoDataFrame:
+def _remove_overlaps(gdf: gpd.GeoDataFrame, projected_crs: str) -> gpd.GeoDataFrame:
     """Remove overlaps between regional shapes and clip shapes using neighbors.
 
     Args:
@@ -114,10 +112,7 @@ def _combine_shapes(
 
 
 def build_combined_area(
-    country_files: list[str],
-    marine_file: str,
-    crs: dict[str, str],
-    combined_file: str,
+    country_files: list[str], marine_file: str, crs: dict[str, str], combined_file: str
 ):
     """Create a single file with the requested geographical scope."""
     combined = _combine_shapes(country_files, marine_file, crs["geographic"])
