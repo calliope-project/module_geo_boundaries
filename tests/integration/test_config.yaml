@@ -1,5 +1,4 @@
 module_geo_boundaries:
-  buffer: 500
   crs:
     projected: "epsg:3857"
     geographic: "epsg:4326"

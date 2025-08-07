@@ -25,15 +25,12 @@ def plot_combined_area(combined_file: str, path: str):
 
 
 def _remove_overlaps(
-    gdf: gpd.GeoDataFrame, buffer: float, projected_crs: str
+    gdf: gpd.GeoDataFrame, projected_crs: str
 ) -> gpd.GeoDataFrame:
-    """Remove overlaps between regional shapes.
-
-    Applies a buffer to all shapes, and then clips each shape using its neighbors.
+    """Remove overlaps between regional shapes and clip shapes using neighbors.
 
     Args:
         gdf (gpd.GeoDataFrame): dataframe with regional shapes.
-        buffer (float): buffer radius (unit depends on the projected CRS used).
         projected_crs (str): CRS to use. Must be projected.
 
     Returns:
@@ -44,8 +41,7 @@ def _remove_overlaps(
     original_crs = gdf.crs
     projected = gdf.to_crs(projected_crs)
 
-    # Buffer size is divided by two since it is applied at both sides of a border
-    buffered = projected.buffer(buffer / 2)
+    buffered = projected.buffer(0)
 
     for index, row in projected.iterrows():
         minx, miny, maxx, maxy = row.geometry.bounds
@@ -121,12 +117,11 @@ def build_combined_area(
     country_files: list[str],
     marine_file: str,
     crs: dict[str, str],
-    buffer: float,
     combined_file: str,
 ):
     """Create a single file with the requested geographical scope."""
     combined = _combine_shapes(country_files, marine_file, crs["geographic"])
-    combined = _remove_overlaps(combined, buffer, crs["projected"])
+    combined = _remove_overlaps(combined, crs["projected"])
 
     combined = combined.to_crs(crs["geographic"])
     combined = _schemas.ShapesSchema.validate(combined)
@@ -138,7 +133,6 @@ if __name__ == "__main__":
         country_files=snakemake.input.countries,
         marine_file=snakemake.input.marine,
         crs=snakemake.params.crs,
-        buffer=snakemake.params.buffer,
         combined_file=snakemake.output.combined,
     )
     plot_combined_area(

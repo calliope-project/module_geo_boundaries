@@ -2,13 +2,6 @@ $schema: "https://json-schema.org/draft/2020-12/schema"
 description: "Schema for user-provided configuration files."
 type: object
 properties:
-  buffer:
-    description: >
-      Size of the empty boundary between shapes, useful to avoid overlaps between shapes.
-      The unit will match that of the projected CRS (e.g., metre for epsg:3857).
-      If zero, no buffer will be applied, which might lead to ambiguous cases (e.g., a point belonging to two shapes)!
-    type: integer
-    minimum: 0
   crs:
     description: CRS codes in the form 'epsg:xxxx'.
     type: object
@@ -69,6 +62,5 @@ properties:
     additionalProperties: false
 required:
   - countries
-  - buffer
   - crs
 additionalProperties: false
