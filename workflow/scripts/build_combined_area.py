@@ -32,11 +32,10 @@ def _remove_overlaps(gdf: gpd.GeoDataFrame, projected_crs: str) -> gpd.GeoDataFr
         projected_crs (str): CRS to use. Must be projected.
 
     Returns:
-        gpd.GeoDataFrame: buffered dataframe.
+        gpd.GeoDataFrame: buffered dataframe in the projected CRS.
     """
     # Buffering requires a projected CRS
     assert CRS(projected_crs).is_projected
-    original_crs = gdf.crs
     projected = gdf.to_crs(projected_crs)
 
     buffered = projected.buffer(0)
@@ -54,7 +53,7 @@ def _remove_overlaps(gdf: gpd.GeoDataFrame, projected_crs: str) -> gpd.GeoDataFr
             assert new_geometry.is_valid, "Invalid bowties could not be corrected."
         assert new_geometry is not None
         projected.loc[index, "geometry"] = new_geometry
-    return projected.to_crs(original_crs)
+    return projected
 
 
 def _combine_shapes(
@@ -118,7 +117,9 @@ def build_combined_area(
     combined = _combine_shapes(country_files, marine_file, crs["geographic"])
     combined = _remove_overlaps(combined, crs["projected"])
 
+    # re-project and buffer one last time to reduce floating point imperfections
     combined = combined.to_crs(crs["geographic"])
+    combined["geometry"] = combined.buffer(0)
     combined = _schemas.ShapesSchema.validate(combined)
     combined.reset_index(drop=True).to_parquet(combined_file)
 
