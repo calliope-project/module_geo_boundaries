@@ -119,7 +119,7 @@ def build_combined_area(
     combined = _remove_overlaps(combined, crs["projected"])
 
     combined = combined.to_crs(crs["geographic"])
-    # A buffer of 0 resolves floating point mismatches that occur during CRS coversion
+    # A buffer of 0 resolves floating point mismatches that occur during CRS conversion
     combined["geometry"] = combined.buffer(0)
     combined = _schemas.ShapesSchema.validate(combined)
     combined.reset_index(drop=True).to_parquet(combined_file)
