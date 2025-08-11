@@ -1,5 +1,4 @@
 # A minimal example of how to configure this module
-buffer: 1  # meters
 crs:
   projected: "epsg:3035"
   geographic: "epsg:4326"

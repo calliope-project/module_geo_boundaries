@@ -24,28 +24,22 @@ def plot_combined_area(combined_file: str, path: str):
     plt.savefig(path)
 
 
-def _remove_overlaps(
-    gdf: gpd.GeoDataFrame, buffer: float, projected_crs: str
-) -> gpd.GeoDataFrame:
-    """Remove overlaps between regional shapes.
-
-    Applies a buffer to all shapes, and then clips each shape using its neighbors.
+def _remove_overlaps(gdf: gpd.GeoDataFrame, projected_crs: str) -> gpd.GeoDataFrame:
+    """Remove overlaps between regional shapes and clip shapes using neighbors.
 
     Args:
         gdf (gpd.GeoDataFrame): dataframe with regional shapes.
-        buffer (float): buffer radius (unit depends on the projected CRS used).
         projected_crs (str): CRS to use. Must be projected.
 
     Returns:
-        gpd.GeoDataFrame: buffered dataframe.
+        gpd.GeoDataFrame: dataframe in the projected CRS.
     """
     # Buffering requires a projected CRS
     assert CRS(projected_crs).is_projected
-    original_crs = gdf.crs
     projected = gdf.to_crs(projected_crs)
 
-    # Buffer size is divided by two since it is applied at both sides of a border
-    buffered = projected.buffer(buffer / 2)
+    # A buffer of 0 resolves floating point mismatches that occur during geospatial operations
+    buffered = projected.buffer(0)
 
     for index, row in projected.iterrows():
         minx, miny, maxx, maxy = row.geometry.bounds
@@ -60,7 +54,7 @@ def _remove_overlaps(
             assert new_geometry.is_valid, "Invalid bowties could not be corrected."
         assert new_geometry is not None
         projected.loc[index, "geometry"] = new_geometry
-    return projected.to_crs(original_crs)
+    return projected
 
 
 def _combine_shapes(
@@ -118,17 +112,15 @@ def _combine_shapes(
 
 
 def build_combined_area(
-    country_files: list[str],
-    marine_file: str,
-    crs: dict[str, str],
-    buffer: float,
-    combined_file: str,
+    country_files: list[str], marine_file: str, crs: dict[str, str], combined_file: str
 ):
     """Create a single file with the requested geographical scope."""
     combined = _combine_shapes(country_files, marine_file, crs["geographic"])
-    combined = _remove_overlaps(combined, buffer, crs["projected"])
+    combined = _remove_overlaps(combined, crs["projected"])
 
     combined = combined.to_crs(crs["geographic"])
+    # A buffer of 0 resolves floating point mismatches that occur during CRS conversion
+    combined["geometry"] = combined.buffer(0)
     combined = _schemas.ShapesSchema.validate(combined)
     combined.reset_index(drop=True).to_parquet(combined_file)
 
@@ -138,7 +130,6 @@ if __name__ == "__main__":
         country_files=snakemake.input.countries,
         marine_file=snakemake.input.marine,
         crs=snakemake.params.crs,
-        buffer=snakemake.params.buffer,
         combined_file=snakemake.output.combined,
     )
     plot_combined_area(

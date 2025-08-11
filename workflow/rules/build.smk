@@ -5,7 +5,6 @@ rule build_combined_area:
     message:
         "Combine land and marine polygons."
     params:
-        buffer=config["buffer"],
         crs=config["crs"],
     input:
         countries=[
