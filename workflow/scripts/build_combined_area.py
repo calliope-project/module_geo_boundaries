@@ -32,12 +32,13 @@ def _remove_overlaps(gdf: gpd.GeoDataFrame, projected_crs: str) -> gpd.GeoDataFr
         projected_crs (str): CRS to use. Must be projected.
 
     Returns:
-        gpd.GeoDataFrame: buffered dataframe in the projected CRS.
+        gpd.GeoDataFrame: dataframe in the projected CRS.
     """
     # Buffering requires a projected CRS
     assert CRS(projected_crs).is_projected
     projected = gdf.to_crs(projected_crs)
 
+    # A buffer of 0 resolves floating point mismatches that occur during geospatial operations
     buffered = projected.buffer(0)
 
     for index, row in projected.iterrows():
@@ -117,8 +118,8 @@ def build_combined_area(
     combined = _combine_shapes(country_files, marine_file, crs["geographic"])
     combined = _remove_overlaps(combined, crs["projected"])
 
-    # re-project and buffer one last time to reduce floating point imperfections
     combined = combined.to_crs(crs["geographic"])
+    # A buffer of 0 resolves floating point mismatches that occur during CRS coversion
     combined["geometry"] = combined.buffer(0)
     combined = _schemas.ShapesSchema.validate(combined)
     combined.reset_index(drop=True).to_parquet(combined_file)
