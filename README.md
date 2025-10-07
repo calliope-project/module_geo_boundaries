@@ -16,8 +16,7 @@ A modular `snakemake` workflow built for [`clio`](https://clio.readthedocs.io/) 
 Contested EEZ's (e.g., Taiwan, Falkland islands) are removed during this step.
 
 > [!CAUTION]
-> Although currently supported, we advice against using Overture Maps if other sources are available.
-> This dataset does not have long-term data retention, making your workflow harder to reproduce.
+> To increase the replicability of your workflow, recommend using NUTS and GADM as sources whenever possible as they are more stable than Overture Maps.
 
 ## Using this module
 
