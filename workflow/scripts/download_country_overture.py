@@ -18,9 +18,7 @@ sys.stderr = open(snakemake.log[0], "w")
 S3_REGION = "us-west-2"
 S3_BUCKET = f"overturemaps-{S3_REGION}"
 S3_RELEASE_PREFIX = "release/"
-S3_GLOB = (
-    "s3://{bucket}/release/{version}/theme=divisions/type=division_area/*"
-)
+S3_GLOB = "s3://{bucket}/release/{version}/theme=divisions/type=division_area/*"
 
 RE_RELEASE = re.compile(r"^(\d{4})-(\d{2})-(\d{2})\.(\d+)$")
 
@@ -35,6 +33,7 @@ def _parse_release(release: str) -> tuple[int, int, int, int]:
         y, mo, d, n = m.groups()
         release_split = (int(y), int(mo), int(d), int(n))
     return release_split
+
 
 def _get_overture_releases(s3) -> Iterable[str]:
     """Yield immediate children under 'release/' as version names (e.g., 'yyyy-mm-dd.x')."""
@@ -52,9 +51,7 @@ def _get_overture_releases(s3) -> Iterable[str]:
 def _check_release(s3, version: str) -> bool:
     """Check if a release version exists in the S3 bucket."""
     resp = s3.list_objects_v2(
-        Bucket=S3_BUCKET,
-        Prefix=f"{S3_RELEASE_PREFIX}{version}/",
-        MaxKeys=1,
+        Bucket=S3_BUCKET, Prefix=f"{S3_RELEASE_PREFIX}{version}/", MaxKeys=1
     )
     return resp.get("KeyCount", 0) > 0
 
@@ -73,12 +70,16 @@ def _resolve_overture_glob(version: str) -> str:
     )
     releases = list(_get_overture_releases(s3))
     if not releases:
-        raise RuntimeError("Could not fetch Overture releases from the public S3 bucket.")
+        raise RuntimeError(
+            "Could not fetch Overture releases from the public S3 bucket."
+        )
     if version == "latest":
         version = max(releases, key=_parse_release)
     else:
         if not _check_release(s3, version):
-            raise ValueError(f"Requested version {version} is not in release list {releases}.")
+            raise ValueError(
+                f"Requested version {version} is not in release list {releases}."
+            )
 
     return S3_GLOB.format(bucket=S3_BUCKET, version=version)
 
