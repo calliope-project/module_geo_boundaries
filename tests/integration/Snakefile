@@ -11,7 +11,7 @@ module module_geo_boundaries:
     config:
         config["module_geo_boundaries"]
     prefix:
-        "results/module_geo_boundaries/"
+        "results/integration_test/"
 
 
 # Add a prefix to all module rules, to avoid naming conflicts.
@@ -24,4 +24,4 @@ rule all:
         "A generic test case for this module."
     default_target: True
     input:
-        "results/module_geo_boundaries/results/shapes.parquet",
+        "results/integration_test/results/shapes.parquet",
