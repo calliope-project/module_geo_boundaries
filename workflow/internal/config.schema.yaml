@@ -2,6 +2,13 @@ $schema: "https://json-schema.org/draft/2020-12/schema"
 description: "Schema for user-provided configuration files."
 type: object
 properties:
+  overture_release:
+    description: |
+      Overture data release to use. Two options are possible:
+      - A specific release string in the form of 'yyyy-mm-dd.x'.
+      - A request for the latest release in the form of 'latest'.
+    type: string
+    pattern: "^(?:latest|(?:\\d{4})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])\\.\\d+)$"
   crs:
     description: CRS codes in the form 'epsg:xxxx'.
     type: object
@@ -30,7 +37,8 @@ properties:
               "Regional aggregation to gather (e.g., '0', '1', or '2' for GADM). Names vary per dataset."
             type: string
           source:
-            description: "Dataset to use as source."
+            description: |
+              Dataset to use as source.
             type: string
             enum: ["overture", "gadm", "nuts"]
           resolution:

@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - nodefaults
 dependencies:
+  - boto3 = 1.40.46
   - duckdb = 1.2.0
   - geopandas = 1.0.1
   - ipdb = 0.13.13

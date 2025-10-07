@@ -8,7 +8,7 @@ rule download_country_overture:
     message:
         "Download '{wildcards.country}_{wildcards.subtype}' dataset from Overture Maps."
     params:
-        version=internal["resources"]["overture_release"],
+        version=config["overture_release"],
     output:
         path="resources/automatic/countries/overture_{country}_{subtype}.parquet",
     log:
