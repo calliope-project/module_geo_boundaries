@@ -1,15 +1,15 @@
-name: shape
 channels:
   - conda-forge
   - nodefaults
 dependencies:
-  - boto3 = 1.40.46
-  - duckdb = 1.2.0
-  - geopandas = 1.0.1
-  - ipdb = 0.13.13
-  - numpy = 2.3.5
-  - pandera-geopandas = 0.24
-  - pandera-io = 0.24
-  - pyarrow = 19.0.1
-  - pycountry = 24.6.1
-  - shapely = 2.1.1
+  - boto3 =1.42.22
+  - duckdb =1.4.3
+  - geopandas =1.0.1
+  - ipdb =0.13.13
+  - numpy =2.4.0
+  - pandera-geopandas =0.27.1
+  - pandera-io =0.27.1
+  - pyarrow =22.0.0
+  - pycountry =24.6.1
+  - shapely =2.1.2
+name: shape
