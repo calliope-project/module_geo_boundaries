@@ -22,15 +22,14 @@ rule download_country_overture:
 rule download_country_gadm:
     message:
         "Download '{wildcards.country}_{wildcards.subtype}' dataset from GADM."
-    params:
-        admin="{country}",
-        content_level=lambda wc: int(wc.subtype),
     output:
         path=temp("resources/automatic/countries/raw_gadm_{country}_{subtype}.parquet"),
     log:
         "logs/download_country_gadm_{country}_{subtype}.log",
-    wrapper:
-        "v5.9.0/geo/pygadm/item"
+    conda:
+        "../envs/shape.yaml"
+    script:
+        "../scripts/download_country_gadm.py"
 
 
 rule standardise_country_gadm:
