@@ -122,6 +122,7 @@ def download_country_overture(country: str, subtype: str, version: str, path: st
             WHERE
                 country == '{country_a2}'
                 AND subtype == '{subtype}'
+                AND class == 'land'
         )
         TO '{path}'
         WITH (
