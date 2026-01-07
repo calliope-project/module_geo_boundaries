@@ -37,6 +37,8 @@ def standardise_country_gadm(
             else gdf["COUNTRY"],
         }
     )
+    # Filter out contested regions
+    standardised = standardised[standardised["country_id"] == country_id]
     standardised = _schemas.ShapesSchema.validate(standardised)
     standardised.to_parquet(output_path)
 
