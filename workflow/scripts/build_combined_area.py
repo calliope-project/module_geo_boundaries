@@ -105,8 +105,7 @@ def _combine_shapes(
             frames.append(country_land)
 
     combined = gpd.GeoDataFrame(
-        pd.concat(frames, ignore_index=True),
-        crs=geographic_crs,
+        pd.concat(frames, ignore_index=True), crs=geographic_crs
     )
     return combined
 
