@@ -32,9 +32,13 @@ def standardise_country_gadm(
             "parent": "gadm",
             "parent_subtype": str(subtype),
             "parent_id": gdf[f"GID_{subtype}"],
-            "parent_name": gdf[f"NAME_{subtype}"],
+            "parent_name": gdf[f"NAME_{subtype}"]
+            if f"NAME_{subtype}" in gdf.columns
+            else gdf["COUNTRY"],
         }
     )
+    # Filter out contested regions
+    standardised = standardised[standardised["country_id"] == country_id]
     standardised = _schemas.ShapesSchema.validate(standardised)
     standardised.to_parquet(output_path)
 

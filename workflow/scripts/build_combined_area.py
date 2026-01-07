@@ -74,40 +74,39 @@ def _combine_shapes(
         gpd.GeoDataFrame: Combined dataframe using the given CRS.
     """
     assert CRS(geographic_crs).is_geographic
-    combined = gpd.GeoDataFrame(columns=_schemas.ShapesSchema.to_schema().columns)
-    combined = combined.set_crs(geographic_crs)
 
+    frames = []
     marine = gpd.read_parquet(marine_file)
     marine = marine.to_crs(geographic_crs)
     # Combine land and marine boundary for each country
     for file in country_files:
         # Fetch the country file and ensure crs is compatible
-        country_land = gpd.read_parquet(file)
+        country_land = gpd.read_parquet(file).to_crs(geographic_crs)
         country_id = country_land["country_id"].unique()
         if len(country_id) != 1:
             raise ValueError(
                 f"Country file {file} should be a single country. Found {country_id}."
             )
         country_id = country_id[0]
-        country_land = country_land.to_crs(geographic_crs)
 
         if country_id in marine["country_id"].unique():
             # clip maritime boundaries
             country_marine = marine[marine["country_id"] == country_id]
-            country_land["geometry"] = country_land.difference(
-                country_marine.union_all(), align=False
-            )
+            marine_geom = country_marine.geometry.union_all()
+            country_land = country_land.copy()
+            country_land.geometry = country_land.geometry.difference(marine_geom)
+
             # only add uncontested maritime boundaries
             uncontested = country_marine[~country_marine["contested"]].drop(
                 "contested", axis="columns"
             )
-            combined = pd.concat(
-                [combined, country_land, uncontested], ignore_index=True
-            )
+            frames.extend([country_land, uncontested])
         else:
-            combined = pd.concat([combined, country_land], ignore_index=True)
+            frames.append(country_land)
 
-    combined = combined.reset_index(drop=True)
+    combined = gpd.GeoDataFrame(
+        pd.concat(frames, ignore_index=True), crs=geographic_crs
+    )
     return combined
 
 
