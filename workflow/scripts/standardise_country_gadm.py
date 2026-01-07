@@ -32,7 +32,9 @@ def standardise_country_gadm(
             "parent": "gadm",
             "parent_subtype": str(subtype),
             "parent_id": gdf[f"GID_{subtype}"],
-            "parent_name": gdf[f"NAME_{subtype}"] if f"NAME_{subtype}" in gdf.columns else gdf["COUNTRY"],
+            "parent_name": gdf[f"NAME_{subtype}"]
+            if f"NAME_{subtype}" in gdf.columns
+            else gdf["COUNTRY"],
         }
     )
     standardised = _schemas.ShapesSchema.validate(standardised)
