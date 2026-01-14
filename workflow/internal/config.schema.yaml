@@ -20,13 +20,17 @@ properties:
     type: string
     pattern: "^(?:latest|(?:\\d{4})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])\\.\\d+)$"
   crs:
-    description: CRS codes in the form 'epsg:xxxx'.
+    description: CRS codes (i.e., 'epsg:3035', 'EPSG:4326', 8857).
     type: object
     properties:
       projected:
-        $ref: '#/$defs/epsgCode'
+        description: "Projected CRS code (for area and length calculation)."
+        allOf:
+          - $ref: '#/$defs/epsgCode'
       geographic:
-        $ref: '#/$defs/epsgCode'
+        description: "Geographic CRS code (for latitude / longitude positioning)."
+        allOf:
+          - $ref: '#/$defs/epsgCode'
     required:
       - projected
       - geographic
