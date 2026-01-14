@@ -1,4 +1,14 @@
 $schema: "https://json-schema.org/draft/2020-12/schema"
+
+$defs:
+  epsgCode:
+    anyOf:
+      - type: string
+        pattern: '^(?:[eE][pP][sS][gG]):\d{4,5}$'
+      - type: integer
+        minimum: 1000
+        maximum: 99999
+
 description: "Schema for user-provided configuration files."
 type: object
 properties:
@@ -14,11 +24,9 @@ properties:
     type: object
     properties:
       projected:
-        type: string
-        pattern: "^epsg:\\d{4,5}$"
+        $ref: '#/$defs/epsgCode'
       geographic:
-        type: string
-        pattern: "^epsg:\\d{4,5}$"
+        $ref: '#/$defs/epsgCode'
     required:
       - projected
       - geographic
