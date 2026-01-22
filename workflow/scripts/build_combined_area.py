@@ -12,6 +12,7 @@ from pyproj import CRS
 if TYPE_CHECKING:
     snakemake: Any
 
+
 def plot_combined_area(combined_file: str, path: str):
     """Generate a nice figure of the resulting file."""
     gdf = gpd.read_parquet(combined_file)
@@ -118,7 +119,10 @@ def _combine_eez(eez_files: list[str]) -> gpd.GeoDataFrame:
 
 
 def build_combined_area(
-    country_files: list[str], marine_files: list[str], crs: dict[str, str], combined_file: str
+    country_files: list[str],
+    marine_files: list[str],
+    crs: dict[str, str],
+    combined_file: str,
 ) -> None:
     """Create a single file with the requested geographical scope."""
     eezs = _combine_eez(marine_files)

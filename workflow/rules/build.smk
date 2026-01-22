@@ -14,7 +14,7 @@ rule build_combined_area:
         marine=[
             f"resources/automatic/eez/{country}.parquet"
             for country in config["countries"]
-        ]
+        ],
     output:
         combined="results/shapes.parquet",
         plot=report(
