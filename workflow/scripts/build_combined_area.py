@@ -59,7 +59,7 @@ def _remove_overlaps(gdf: gpd.GeoDataFrame, projected_crs: str) -> gpd.GeoDataFr
 def _combine_shapes(
     country_files: list[str], eez: gpd.GeoDataFrame, geographic_crs: str
 ) -> gpd.GeoDataFrame:
-    """Merge each all countries and maritime boundaries into one file.
+    """Merge all countries and maritime boundaries into one file.
 
     Args:
         country_files (list[str]): List of standardised country files to combine.
