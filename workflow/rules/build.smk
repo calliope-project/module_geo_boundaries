@@ -11,7 +11,10 @@ rule build_combined_area:
             f"resources/automatic/countries/{data['source']}_{country}_{data['subtype']}.parquet"
             for country, data in config["countries"].items()
         ],
-        marine="resources/automatic/marineregions/eez.parquet",
+        marine=[
+            f"resources/automatic/eez/{country}.parquet"
+            for country in config["countries"]
+        ],
     output:
         combined="results/shapes.parquet",
         plot=report(

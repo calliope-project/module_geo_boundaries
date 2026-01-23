@@ -11,7 +11,6 @@ from pyproj import CRS
 
 if TYPE_CHECKING:
     snakemake: Any
-sys.stderr = open(snakemake.log[0], "w")
 
 
 def plot_combined_area(combined_file: str, path: str):
@@ -58,13 +57,13 @@ def _remove_overlaps(gdf: gpd.GeoDataFrame, projected_crs: str) -> gpd.GeoDataFr
 
 
 def _combine_shapes(
-    country_files: list[str], marine_file: str, geographic_crs: str
+    country_files: list[str], eez: gpd.GeoDataFrame, geographic_crs: str
 ) -> gpd.GeoDataFrame:
-    """Merge each all countries and maritime boundaries into one file.
+    """Merge all countries and maritime boundaries into one file.
 
     Args:
         country_files (list[str]): List of standardised country files to combine.
-        marine_file (str): Standardised file with maritime boundaries.
+        eez (gpd.GeoDataFrame): Standardised EEZ shapes.
         geographic_crs (str): CRS to use. Must be geographic.
 
     Raises:
@@ -76,8 +75,11 @@ def _combine_shapes(
     assert CRS(geographic_crs).is_geographic
 
     frames = []
-    marine = gpd.read_parquet(marine_file)
-    marine = marine.to_crs(geographic_crs)
+    if not eez.empty:
+        eez = eez.to_crs(geographic_crs)
+        # No contested or ambiguous EEZs
+        eez = eez[eez["contested"].eq(False)].drop(columns="contested")
+
     # Combine land and marine boundary for each country
     for file in country_files:
         # Fetch the country file and ensure crs is compatible
@@ -89,18 +91,15 @@ def _combine_shapes(
             )
         country_id = country_id[0]
 
-        if country_id in marine["country_id"].unique():
-            # clip maritime boundaries
-            country_marine = marine[marine["country_id"] == country_id]
+        country_marine = eez[eez["country_id"] == country_id]
+        if not country_marine.empty:
             marine_geom = country_marine.geometry.union_all()
+            # clip land with maritime boundaries
             country_land = country_land.copy()
             country_land.geometry = country_land.geometry.difference(marine_geom)
 
             # only add uncontested maritime boundaries
-            uncontested = country_marine[~country_marine["contested"]].drop(
-                "contested", axis="columns"
-            )
-            frames.extend([country_land, uncontested])
+            frames.extend([country_land, country_marine])
         else:
             frames.append(country_land)
 
@@ -110,11 +109,24 @@ def _combine_shapes(
     return combined
 
 
+def _combine_eez(eez_files: list[str]) -> gpd.GeoDataFrame:
+    """Merge all eez files into a big dataset to be processed further."""
+    frames: list[gpd.GeoDataFrame] = []
+    for path in eez_files:
+        gdf = gpd.read_parquet(path)
+        frames.append(gdf)
+    return pd.concat(frames, axis="rows", ignore_index=True)
+
+
 def build_combined_area(
-    country_files: list[str], marine_file: str, crs: dict[str, str], combined_file: str
-):
+    country_files: list[str],
+    marine_files: list[str],
+    crs: dict[str, str],
+    combined_file: str,
+) -> None:
     """Create a single file with the requested geographical scope."""
-    combined = _combine_shapes(country_files, marine_file, crs["geographic"])
+    eezs = _combine_eez(marine_files)
+    combined = _combine_shapes(country_files, eezs, crs["geographic"])
     combined = _remove_overlaps(combined, crs["projected"])
 
     combined = combined.to_crs(crs["geographic"])
@@ -125,9 +137,10 @@ def build_combined_area(
 
 
 if __name__ == "__main__":
+    sys.stderr = open(snakemake.log[0], "w")
     build_combined_area(
         country_files=snakemake.input.countries,
-        marine_file=snakemake.input.marine,
+        marine_files=snakemake.input.marine,
         crs=snakemake.params.crs,
         combined_file=snakemake.output.combined,
     )

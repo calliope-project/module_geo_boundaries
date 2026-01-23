@@ -84,11 +84,12 @@ rule standardise_country_nuts:
 
 rule download_marine_eez_area:
     message:
-        "Download global exclusive economic zone (eez) polygons."
+        "Download and standardise '{wildcards.country}' EEZ dataset."
     output:
-        path="resources/automatic/marineregions/eez.parquet",
+        path="resources/automatic/eez/{country}.parquet",
+        plot="resources/automatic/eez/{country}.png",
     log:
-        "logs/download_marine_eez_area.log",
+        "logs/{country}/download_marine_eez_area.log",
     conda:
         "../envs/shape.yaml"
     script:
