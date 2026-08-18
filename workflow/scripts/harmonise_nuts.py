@@ -51,6 +51,7 @@ def standardise_country_nuts(
             "shape_class": "land",
             "geometry": nuts_gdf["geometry"],
             "parent": "nuts",
+            "parent_release": release,
             "parent_subtype": nuts_gdf["LEVL_CODE"].astype(str),
             "parent_id": nuts_gdf["NUTS_ID"],
             "parent_name": nuts_gdf["NUTS_NAME"],

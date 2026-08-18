@@ -126,7 +126,7 @@ def transform_to_schema(
     """
     if gdf is not None:
         if semver.VersionInfo.parse(release).major == 2:
-            standardised = _standardise_v2(gdf, country_id)
+            standardised = _standardise_v2(gdf, country_id, release)
         else:
             raise RuntimeError(
                 f"Unsupported version {release} for MarineRegions EEZ download."
@@ -139,7 +139,7 @@ def transform_to_schema(
     return standardised
 
 
-def _standardise_v2(gdf: gpd.GeoDataFrame, country_id: str) -> gpd.GeoDataFrame:
+def _standardise_v2(gdf: gpd.GeoDataFrame, country_id: str, release: str) -> gpd.GeoDataFrame:
     """Standardise a MarineRegions EEZ dataset downloaded with WFS version 2.x."""
     standardised = gpd.GeoDataFrame(
         {
@@ -150,6 +150,7 @@ def _standardise_v2(gdf: gpd.GeoDataFrame, country_id: str) -> gpd.GeoDataFrame:
             "shape_class": "maritime",
             "geometry": gdf["geometry"],
             "parent": "marineregions",
+            "parent_release": release,
             "parent_subtype": "eez",
             "parent_id": gdf["mrgid"],
             "parent_name": gdf["geoname"],

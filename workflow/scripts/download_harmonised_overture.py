@@ -59,14 +59,14 @@ def _check_release(s3, version: str) -> bool:
     return resp.get("KeyCount", 0) > 0
 
 
-def _resolve_overture_glob(version: str) -> str:
-    """Return a valid Overture glob for the divisions dataset.
+def _resolve_overture_glob(version: str) -> tuple[str, str]:
+    """Return a valid Overture glob and its concrete release.
 
     Args:
         version (str): version to resolve. Can be Calver ('yyyy.mm.dd.x') or 'latest'.
 
     Returns:
-        str: valid Overture S3 glob.
+        tuple[str, str]: valid Overture S3 glob and concrete release.
     """
     s3 = boto3.client(
         "s3", region_name=S3_REGION, config=Config(signature_version=UNSIGNED)
@@ -84,7 +84,7 @@ def _resolve_overture_glob(version: str) -> str:
                 f"Requested version {version} is not in release list {releases}."
             )
 
-    return S3_GLOB.format(bucket=S3_BUCKET, version=version)
+    return S3_GLOB.format(bucket=S3_BUCKET, version=version), version
 
 
 def download_country_overture(country: str, subtype: str, release: str, path: str):
@@ -94,7 +94,7 @@ def download_country_overture(country: str, subtype: str, release: str, path: st
     """
     # Prepare variables for the request
     country_a2 = CC.convert(country, src="ISO3", to="ISO2")
-    overture_glob = _resolve_overture_glob(release)
+    overture_glob, parent_release = _resolve_overture_glob(release)
 
     # Setup SQL connection to the remote dataset
     connection = duckdb.connect()
@@ -112,6 +112,7 @@ def download_country_overture(country: str, subtype: str, release: str, path: st
                 class AS shape_class,
                 geometry,
                 'overture' AS parent,
+                '{parent_release}' AS parent_release,
                 subtype AS parent_subtype,
                 id AS parent_id,
                 names.primary AS parent_name
