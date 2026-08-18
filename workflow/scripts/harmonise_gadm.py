@@ -12,7 +12,7 @@ sys.stderr = open(snakemake.log[0], "w")
 
 
 def standardise_country_gadm(
-    input_path: str, country_id: str, release:str, subtype: str, output_path: str
+    input_path: str, country_id: str, release: str, subtype: str, output_path: str
 ):
     """Transformation of GADM dataset to clio.
 

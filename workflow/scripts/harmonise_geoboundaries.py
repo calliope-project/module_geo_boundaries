@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 
 def harmonise_geoboundaries(
-    input_path: str, country_id: str, release:str, release_type: str
+    input_path: str, country_id: str, release: str, release_type: str
 ) -> gpd.GeoDataFrame:
     """Harmonise a geoBoundaries dataset including metadata."""
     gdf = gpd.read_parquet(input_path)

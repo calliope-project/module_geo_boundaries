@@ -139,7 +139,9 @@ def transform_to_schema(
     return standardised
 
 
-def _standardise_v2(gdf: gpd.GeoDataFrame, country_id: str, release: str) -> gpd.GeoDataFrame:
+def _standardise_v2(
+    gdf: gpd.GeoDataFrame, country_id: str, release: str
+) -> gpd.GeoDataFrame:
     """Standardise a MarineRegions EEZ dataset downloaded with WFS version 2.x."""
     standardised = gpd.GeoDataFrame(
         {
