@@ -250,7 +250,7 @@ properties:
       MarineRegions WFS version to use to access EEZ data.
     type: string
     default: "2.0.0"
-    enum: ["2.0.0"]
+    pattern: "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$"
   scenarios:
     description: >
       Shape-building scenarios to run.
