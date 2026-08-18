@@ -61,7 +61,7 @@ def get_eez_file(scenario: str, country: str) -> str:
     if extra_eez:
         file_path = f"combined/{country}_{'_'.join([str(i) for i in extra_eez])}"
     else:
-        file_path = f"single/{country}"
+        file_path = f"single/{get_release('marine_regions')}/{country}"
     return file_path
 
 
