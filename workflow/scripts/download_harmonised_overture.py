@@ -87,14 +87,14 @@ def _resolve_overture_glob(version: str) -> str:
     return S3_GLOB.format(bucket=S3_BUCKET, version=version)
 
 
-def download_country_overture(country: str, subtype: str, version: str, path: str):
+def download_country_overture(country: str, subtype: str, release: str, path: str):
     """Download country division areas from Overture maps.
 
     Uses duckdb for remote interfacing and 'larger than memory' file generation.
     """
     # Prepare variables for the request
     country_a2 = CC.convert(country, src="ISO3", to="ISO2")
-    overture_glob = _resolve_overture_glob(version)
+    overture_glob = _resolve_overture_glob(release)
 
     # Setup SQL connection to the remote dataset
     connection = duckdb.connect()
@@ -136,13 +136,13 @@ def download_country_overture(country: str, subtype: str, version: str, path: st
 
 
 def validate_country_overture(
-    path: str, country: str, subtype: str, version: str
+    path: str, country: str, subtype: str, release: str
 ) -> None:
     """Run quick checks against our schema."""
     gdf = gpd.read_parquet(path)
     if gdf.empty:
         raise ValueError(
-            f"Invalid request for '{country}-{subtype}-{version}'. "
+            f"Invalid request for '{country}-{subtype}-{release}'. "
             "Please evaluate your request at https://overturemaps.org/."
         )
     ShapesSchema.validate(gdf)
@@ -153,13 +153,13 @@ def main() -> None:
     download_country_overture(
         country=snakemake.wildcards.country,
         subtype=snakemake.wildcards.subtype,
-        version=snakemake.params.version,
+        release=snakemake.wildcards.release,
         path=snakemake.output.path,
     )
     validate_country_overture(
         country=snakemake.wildcards.country,
         subtype=snakemake.wildcards.subtype,
-        version=snakemake.params.version,
+        release=snakemake.wildcards.release,
         path=snakemake.output.path,
     )
 

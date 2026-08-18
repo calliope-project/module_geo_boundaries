@@ -14,5 +14,8 @@ timeouts:
   initial_retry_seconds: 5
 gdal:
   geojson_max_obj_size_mb: 1024
-overture_release: "latest"
-marine_regions_release: "2.0.0"
+releases:
+  overture: latest
+  marine_regions: "2.0.0"
+  gadm: "4.1"
+  geoboundaries: "6.0.0"

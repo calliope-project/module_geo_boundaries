@@ -1,9 +1,8 @@
-"""Download data from the geoBoundaries API.
+"""Download data from the geoBoundaries repository.
 
-https://www.geoboundaries.org/api.html
+https://github.com/wmgeolab/geoBoundaries
 """
 
-import json
 import sys
 import tempfile
 from pathlib import Path
@@ -16,36 +15,28 @@ if TYPE_CHECKING:
     snakemake: Any
 
 
-GEOBOUNDARIES_API_URL = (
-    "https://www.geoboundaries.org/api/current/{release_type}/{country}/ADM{subtype}/"
+URL = (
+    "https://github.com/wmgeolab/geoBoundaries/raw/refs/tags/v{release}/releaseData/"
+    "{release_type}/{country}/ADM{subtype}/geoBoundaries-{country}-ADM{subtype}.geojson"
 )
-GEOBOUNDARIES_CRS = "EPSG:4326"
+CRS = "EPSG:4326"
 
 
 def download_country_geoboundaries(
     country: str,
     subtype: str,
+    release: str,
     release_type: str,
     timeouts: DownloadTimeouts,
     geojson_max_obj_size_mb: int,
 ) -> gpd.GeoDataFrame:
-    """Download country data from geoBoundaries.
-
-    Uses the current geoBoundaries API endpoint.
-    The concrete dataset version returned in the metadata JSON response.
-    """
-    api_url = GEOBOUNDARIES_API_URL.format(
-        release_type=release_type, country=country, subtype=subtype
+    """Download country data from geoBoundaries."""
+    geojson_url = URL.format(
+        release=release, release_type=release_type, country=country, subtype=subtype
     )
 
     with tempfile.TemporaryDirectory() as tmp_dir:
         tmp_path = Path(tmp_dir)
-
-        metadata_path = tmp_path / "metadata.json"
-        download_file(api_url, metadata_path, timeouts)
-
-        metadata = json.loads(metadata_path.read_text())
-        geojson_url = metadata["gjDownloadURL"]
 
         geojson_path = tmp_path / "download.geojson"
         download_file(geojson_url, geojson_path, timeouts)
@@ -56,16 +47,17 @@ def download_country_geoboundaries(
                 f"Downloaded empty geoBoundaries file from {geojson_url!r}."
             )
 
-    return gdf.to_crs(GEOBOUNDARIES_CRS)
+    return gdf.to_crs(CRS)
 
 
-def main():
+def main() -> None:
     """Main snakemake process."""
     timeouts = DownloadTimeouts(**snakemake.params.timeouts)
 
     country = download_country_geoboundaries(
         snakemake.wildcards.country,
         snakemake.wildcards.subtype,
+        snakemake.wildcards.release,
         snakemake.wildcards.release_type,
         timeouts,
         snakemake.params.geojson_max_obj_size_mb,
@@ -74,5 +66,5 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.stderr = open(snakemake.log[0], "w")
+    sys.stderr = open(snakemake.log[0], "w", buffering=1)
     main()
