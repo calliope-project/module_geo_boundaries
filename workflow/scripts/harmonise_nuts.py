@@ -27,18 +27,17 @@ def _iso_a3_to_nuts(code):
 
 
 def standardise_country_nuts(
-    raw_file: str, country_id: str, year: int, subtype: str, output_path: str
+    raw_file: str, country_id: str, release: int, output_path: str
 ):
     """Extract country data from a NUTS file and standardise it.
 
     Args:
         raw_file (str): NUTS parquet file with raw data.
         country_id (str): ISO alpha 3 country code.
-        year (int): NUTS year version.
-        subtype (str): Disaggregation level of the file (i.e., 0, 1, 2...).
+        release (int): NUTS release year.
         output_path (str): output path for the standardised file.
     """
-    nuts_version = f"nuts{year}"
+    nuts_release = f"nuts{release}"
     nuts_id = _iso_a3_to_nuts(country_id)
 
     nuts_gdf = gpd.read_parquet(raw_file)
@@ -46,12 +45,13 @@ def standardise_country_nuts(
     standardised_gdf = gpd.GeoDataFrame(
         {
             "shape_id": nuts_gdf["NUTS_ID"].apply(
-                lambda x: country_id + "_" + nuts_version + "_" + x
+                lambda x: country_id + "_" + nuts_release + "_" + x
             ),
             "country_id": country_id,
             "shape_class": "land",
             "geometry": nuts_gdf["geometry"],
             "parent": "nuts",
+            "parent_release": release,
             "parent_subtype": nuts_gdf["LEVL_CODE"].astype(str),
             "parent_id": nuts_gdf["NUTS_ID"],
             "parent_name": nuts_gdf["NUTS_NAME"],
@@ -65,7 +65,6 @@ if __name__ == "__main__":
     standardise_country_nuts(
         raw_file=snakemake.input.raw,
         country_id=snakemake.wildcards.country,
-        year=snakemake.wildcards.year,
-        subtype=snakemake.wildcards.subtype,
+        release=snakemake.wildcards.release,
         output_path=snakemake.output.path,
     )

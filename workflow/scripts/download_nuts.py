@@ -11,15 +11,15 @@ from _utils import DownloadTimeouts, download_file
 if TYPE_CHECKING:
     snakemake: Any
 
-URL = "https://gisco-services.ec.europa.eu/distribution/v2/nuts/gpkg/NUTS_RG_{resolution}_{year}_{crs}_LEVL_{level}.gpkg"
+URL = "https://gisco-services.ec.europa.eu/distribution/v2/nuts/gpkg/NUTS_RG_{resolution}_{release}_{crs}_LEVL_{level}.gpkg"
 NUTS_CRS = 3035
 
 
 def download_nuts_version(
-    year: int, resolution: str, level: str, timeouts: DownloadTimeouts
+    release: int, resolution: str, level: str, timeouts: DownloadTimeouts
 ) -> gpd.GeoDataFrame:
     """Download an aggregated NUTS datafile for the requested configuration."""
-    url = URL.format(year=year, resolution=resolution, crs=NUTS_CRS, level=level)
+    url = URL.format(release=release, resolution=resolution, crs=NUTS_CRS, level=level)
     with tempfile.TemporaryDirectory() as temp_dir:
         tmp_path = Path(temp_dir) / "download.gpkg"
         download_file(url, tmp_path, timeouts)
@@ -33,7 +33,7 @@ def download_nuts_version(
 def main():
     """Main snakemake process."""
     gdf = download_nuts_version(
-        year=snakemake.wildcards.year,
+        release=snakemake.wildcards.release,
         resolution=snakemake.wildcards.resolution,
         level=snakemake.wildcards.subtype,
         timeouts=DownloadTimeouts(**snakemake.params.timeouts),

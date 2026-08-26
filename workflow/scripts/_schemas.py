@@ -27,6 +27,8 @@ class ShapesSchema(pa.DataFrameModel):
     "Shape (multi)polygon."
     parent: Series[str] = pa.Field(isin=SUPPORTED_DATASETS)
     "Parent dataset."
+    parent_release: Series[str]
+    "Release number of the parent dataset."
     parent_subtype: Series[str]
     "Region disaggregation level in the parent dataset."
     parent_id: Series[str]

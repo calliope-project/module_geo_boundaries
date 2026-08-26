@@ -1,6 +1,5 @@
 """Download data from the GADM database.
 
-Built for version 4.1 of the dataset.
 https://gadm.org/index.html
 """
 
@@ -16,20 +15,32 @@ if TYPE_CHECKING:
     snakemake: Any
 
 
-GADM_URL = (
-    "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_{country}_{subtype}.json{zip}"
-)
-GADM_CRS = "EPSG:4326"
+URL = "https://geodata.ucdavis.edu/gadm/gadm{release}/json/gadm{nodot}_{country}_{subtype}.json{zip}"
+CRS = "EPSG:4326"
+SUPPORTED = ("4.1",)
 
 
 def download_country_gadm(
-    country: str, subtype: str, timeouts: DownloadTimeouts, geojson_max_obj_size_mb: int
+    release: str,
+    country: str,
+    subtype: str,
+    timeouts: DownloadTimeouts,
+    geojson_max_obj_size_mb: int,
 ) -> gpd.GeoDataFrame:
     """Attempts to download country GADM data in .json or zipped json."""
     last_error: Exception | None = None
 
+    if release not in SUPPORTED:
+        raise ValueError(f"GADM {release=} is not supported.")
+
     for zip_ext in (".zip", ""):
-        url = GADM_URL.format(country=country, subtype=subtype, zip=zip_ext)
+        url = URL.format(
+            release=release,
+            nodot=release.replace(".", ""),
+            country=country,
+            subtype=subtype,
+            zip=zip_ext,
+        )
         try:
             with tempfile.TemporaryDirectory() as tmp_dir:
                 tmp_path = Path(tmp_dir) / f"download.json{zip_ext}"
@@ -38,7 +49,7 @@ def download_country_gadm(
                 gdf = read_geojson_file(tmp_path, geojson_max_obj_size_mb)
                 if gdf.empty:
                     raise RuntimeError(f"Downloaded empty GADM file from {url!r}.")
-                return gdf.to_crs(GADM_CRS)
+                return gdf.to_crs(CRS)
 
         except Exception as exc:
             last_error = exc
@@ -51,6 +62,7 @@ def main():
     """Main snakemake process."""
     timeouts = DownloadTimeouts(**snakemake.params.timeouts)
     country = download_country_gadm(
+        snakemake.wildcards.release,
         snakemake.wildcards.country,
         snakemake.wildcards.subtype,
         timeouts,
@@ -60,5 +72,5 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.stderr = open(snakemake.log[0], "w")
+    sys.stderr = open(snakemake.log[0], "w", buffering=1)
     main()

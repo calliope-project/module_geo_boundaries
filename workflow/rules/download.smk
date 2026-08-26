@@ -18,9 +18,9 @@ rule download_duckdb_extensions:
 
 rule download_geoboundaries:
     output:
-        path="<resources>/automatic/geoboundaries/download/{country}_{subtype}_{release_type}.parquet",
+        path="<resources>/automatic/geoboundaries/download/{release}/{country}_{subtype}_{release_type}.parquet",
     log:
-        "<logs>/geoboundaries/download/{country}_{subtype}_{release_type}.log",
+        "<logs>/geoboundaries/download/{release}/{country}_{subtype}_{release_type}.log",
     localrule: True
     conda:
         "../envs/module.yaml"
@@ -28,16 +28,16 @@ rule download_geoboundaries:
         timeouts=internal["timeouts"],
         geojson_max_obj_size_mb=get_gdal_config()["geojson_max_obj_size_mb"],
     message:
-        "Downloading '{wildcards.country}_{wildcards.subtype}_{wildcards.release_type}' dataset from geoBoundaries."
+        "Downloading geoBoundaries {wildcards.release}: {wildcards.country}_{wildcards.subtype}_{wildcards.release_type}."
     script:
         "../scripts/download_geoboundaries.py"
 
 
 rule download_gadm:
     output:
-        path="<resources>/automatic/gadm/download/{country}_{subtype}.parquet",
+        path="<resources>/automatic/gadm/download/{release}/{country}_{subtype}.parquet",
     log:
-        "<logs>/gadm/download/{country}_{subtype}.log",
+        "<logs>/gadm/download/{release}/{country}_{subtype}.log",
     localrule: True
     conda:
         "../envs/module.yaml"
@@ -45,22 +45,22 @@ rule download_gadm:
         timeouts=internal["timeouts"],
         geojson_max_obj_size_mb=get_gdal_config()["geojson_max_obj_size_mb"],
     message:
-        "Download '{wildcards.country}_{wildcards.subtype}' dataset from GADM."
+        "Downloading GADM {wildcards.release}: {wildcards.country}_{wildcards.subtype}."
     script:
         "../scripts/download_gadm.py"
 
 
 rule download_nuts:
     output:
-        path="<resources>/automatic/nuts/download/{subtype}_{resolution}_{year}.parquet",
+        path="<resources>/automatic/nuts/download/{release}/{subtype}_{resolution}.parquet",
     log:
-        "<logs>/nuts/download/{subtype}_{resolution}_{year}.log",
+        "<logs>/nuts/download/{release}/{subtype}_{resolution}.log",
     localrule: True
     conda:
         "../envs/module.yaml"
     params:
         timeouts=internal["timeouts"],
     message:
-        "Download '{wildcards.subtype}_{wildcards.resolution}_{wildcards.year}' from NUTS."
+        "Downloading NUTS {wildcards.release}: {wildcards.subtype}_{wildcards.resolution}."
     script:
         "../scripts/download_nuts.py"

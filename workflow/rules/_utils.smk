@@ -1,6 +1,12 @@
 """Utility functions for snakemake rule handling."""
 
 
+def get_release(source: str):
+    """Obtain (pre)configured release to use for a source dataset."""
+    releases = internal["releases"] | config.get("releases", {})
+    return releases[source]
+
+
 def get_country_file(scenario: str, country: str):
     """Build unique file names to avoid overwriting source files.
 
@@ -11,14 +17,18 @@ def get_country_file(scenario: str, country: str):
     source = country_settings["source"]
     subtype = country_settings["subtype"]
 
-    filename = f"{source}/harmonise/{country}_{subtype}"
+    if source == "nuts":
+        release = country_settings["year"]
+    else:
+        release = get_release(source)
+
+    filename = f"{source}/harmonise/{release}/{country}_{subtype}"
     if source == "nuts":
         resolution = country_settings["resolution"]
-        year = country_settings["year"]
-        filename += f"_{year}_{resolution}"
+        filename += f"_{resolution}"
     elif source == "geoboundaries":
-        release = country_settings["release_type"]
-        filename += f"_{release}"
+        release_type = country_settings["release_type"]
+        filename += f"_{release_type}"
 
     return filename
 
@@ -51,7 +61,7 @@ def get_eez_file(scenario: str, country: str) -> str:
     if extra_eez:
         file_path = f"combined/{country}_{'_'.join([str(i) for i in extra_eez])}"
     else:
-        file_path = f"single/{country}"
+        file_path = f"single/{get_release('marine_regions')}/{country}"
     return file_path
 
 

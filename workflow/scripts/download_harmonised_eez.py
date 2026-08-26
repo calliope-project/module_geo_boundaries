@@ -109,7 +109,7 @@ def get_eez_by_cql(
 
 
 def transform_to_schema(
-    gdf: gpd.GeoDataFrame | None, country_id: str, version: str
+    gdf: gpd.GeoDataFrame | None, country_id: str, release: str
 ) -> gpd.GeoDataFrame:
     """Transform the MarineRegions dataset for better compatibility.
 
@@ -119,17 +119,17 @@ def transform_to_schema(
     Args:
         gdf (gpd.GeoDataFrame): A marine regions geo-dataframe.
         country_id (str): ISO3 country id from the workflow.
-        version (str): WFS version used to download the data.
+        release (str): WFS release used to download the data.
 
     Returns:
         gpd.GeoDataFrame: standardised dataframe.
     """
     if gdf is not None:
-        if semver.VersionInfo.parse(version).major == 2:
-            standardised = _standardise_v2(gdf, country_id)
+        if semver.VersionInfo.parse(release).major == 2:
+            standardised = _standardise_v2(gdf, country_id, release)
         else:
             raise RuntimeError(
-                f"Unsupported version {version} for MarineRegions EEZ download."
+                f"Unsupported version {release} for MarineRegions EEZ download."
             )
         # Remove cases without territorial ISO code
         standardised = standardised[~standardised["country_id"].isna()]
@@ -139,7 +139,9 @@ def transform_to_schema(
     return standardised
 
 
-def _standardise_v2(gdf: gpd.GeoDataFrame, country_id: str) -> gpd.GeoDataFrame:
+def _standardise_v2(
+    gdf: gpd.GeoDataFrame, country_id: str, release: str
+) -> gpd.GeoDataFrame:
     """Standardise a MarineRegions EEZ dataset downloaded with WFS version 2.x."""
     standardised = gpd.GeoDataFrame(
         {
@@ -150,6 +152,7 @@ def _standardise_v2(gdf: gpd.GeoDataFrame, country_id: str) -> gpd.GeoDataFrame:
             "shape_class": "maritime",
             "geometry": gdf["geometry"],
             "parent": "marineregions",
+            "parent_release": release,
             "parent_subtype": "eez",
             "parent_id": gdf["mrgid"],
             "parent_name": gdf["geoname"],
@@ -193,7 +196,7 @@ def download_eez(
     cql_filter: str,
     country_id: str,
     timeouts: _utils.DownloadTimeouts,
-    version: str,
+    release: str,
     *,
     allow_empty: bool,
 ) -> gpd.GeoDataFrame:
@@ -202,28 +205,28 @@ def download_eez(
     If no EEZ exists for a country query, the dataframe will be empty.
     MarineRegions ID queries are expected to return exactly one dataset.
     """
-    gdf = get_eez_by_cql(cql_filter, timeouts, version)
+    gdf = get_eez_by_cql(cql_filter, timeouts, release)
     if gdf is None and not allow_empty:
         raise RuntimeError(f"Configured EEZ query {cql_filter!r} returned no features")
 
-    return transform_to_schema(gdf, country_id, version)
+    return transform_to_schema(gdf, country_id, release)
 
 
 def main() -> None:
     """Main snakemake process."""
     timeouts = _utils.DownloadTimeouts(**snakemake.params.timeouts)
     eez = snakemake.wildcards.eez
-    version = snakemake.params.version
+    release = snakemake.wildcards.release
 
     if eez.isdigit():
         label = f"mrgid {eez}"
         gdf = download_eez(
-            f"mrgid={int(eez)}", "extra_eez", timeouts, version, allow_empty=False
+            f"mrgid={int(eez)}", "extra_eez", timeouts, release, allow_empty=False
         )
     elif len(eez) == 3 and eez.isalpha() and eez.isupper():
         label = eez
         gdf = download_eez(
-            f"iso_ter1='{eez}'", eez, timeouts, version, allow_empty=True
+            f"iso_ter1='{eez}'", eez, timeouts, release, allow_empty=True
         )
     else:
         raise ValueError(f"Unsupported EEZ identifier: {eez!r}")
@@ -235,5 +238,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    sys.stderr = open(snakemake.log[0], "w")
+    sys.stderr = open(snakemake.log[0], "w", buffering=1)
     main()

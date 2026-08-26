@@ -12,13 +12,14 @@ sys.stderr = open(snakemake.log[0], "w")
 
 
 def standardise_country_gadm(
-    input_path: str, country_id: str, subtype: str, output_path: str
+    input_path: str, country_id: str, release: str, subtype: str, output_path: str
 ):
     """Transformation of GADM dataset to clio.
 
     Args:
         input_path (str): path to input file.
         country_id (str): ISO alpha 3 code.
+        release (str): release number.
         subtype (str): regional definition in the parent dataset (0, 1, 2).
         output_path (str): path to output file.
     """
@@ -30,6 +31,7 @@ def standardise_country_gadm(
             "shape_class": "land",
             "geometry": gdf["geometry"],
             "parent": "gadm",
+            "parent_release": release,
             "parent_subtype": str(subtype),
             "parent_id": gdf[f"GID_{subtype}"],
             "parent_name": gdf[f"NAME_{subtype}"]
@@ -47,6 +49,7 @@ if __name__ == "__main__":
     standardise_country_gadm(
         input_path=snakemake.input.raw,
         country_id=snakemake.wildcards.country,
+        release=snakemake.wildcards.release,
         subtype=snakemake.wildcards.subtype,
         output_path=snakemake.output.standardised,
     )

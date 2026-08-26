@@ -3,9 +3,9 @@
 
 rule build_eez:
     input:
-        country="<resources>/automatic/eez/single/{country}.parquet",
+        country=f"<resources>/automatic/eez/single/{get_release('marine_regions')}/{{country}}.parquet",
         extra=lambda wc: [
-            f"<resources>/automatic/eez/single/{mrgid}.parquet"
+            f"<resources>/automatic/eez/single/{get_release('marine_regions')}/{mrgid}.parquet"
             for mrgid in get_extra_eez_from_key(wc.eez_key)
         ],
     output:

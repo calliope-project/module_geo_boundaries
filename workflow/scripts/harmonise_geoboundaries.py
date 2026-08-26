@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 
 def harmonise_geoboundaries(
-    input_path: str, country_id: str, release_type: str
+    input_path: str, country_id: str, release: str, release_type: str
 ) -> gpd.GeoDataFrame:
     """Harmonise a geoBoundaries dataset including metadata."""
     gdf = gpd.read_parquet(input_path)
@@ -29,6 +29,7 @@ def harmonise_geoboundaries(
             "shape_class": "land",
             "geometry": gdf["geometry"],
             "parent": "geoboundaries",
+            "parent_release": release,
             "parent_subtype": f"{release_type}_" + shape_type,
             "parent_id": shape_id,
             "parent_name": gdf["shapeName"],
@@ -45,6 +46,7 @@ def main():
     gdf = harmonise_geoboundaries(
         input_path=snakemake.input.raw,
         country_id=snakemake.wildcards.country,
+        release=snakemake.wildcards.release,
         release_type=snakemake.wildcards.release_type,
     )
     gdf.to_parquet(snakemake.output.path)
